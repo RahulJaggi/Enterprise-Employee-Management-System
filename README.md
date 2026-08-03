@@ -5,34 +5,41 @@
 [![Style](https://img.shields.io/badge/Styles-SCSS-bf4080.svg?style=flat-square&logo=sass)](https://sass-lang.com/)
 [![JSON Server](https://img.shields.io/badge/Mock_Backend-JSON_Server-green.svg?style=flat-square)](https://github.com/typicode/json-server)
 
-A production-ready, high-fidelity Enterprise Employee Management System built using **Angular 20** standalone architecture, **Angular Signals** for reactive state control, **Angular Material** design systems, and mock REST backend services.
+A production-ready, high-fidelity Enterprise Employee Management System built using **Angular 20** standalone components, **Angular Signals** for reactive state management, **Angular Material** design systems, and mock REST backend services. 
+
+The entire UI/UX has been redesigned from the ground up to reflect a premium SaaS admin dashboard inspired by the design systems of **Linear, Vercel, Stripe, and GitHub**.
 
 ---
 
 ## 🏗️ Architecture Overview
 
-The application follows a modular, scalable **Feature-Based Architecture**. Core utilities, shared widgets, and isolated layouts are structured separately from features.
+The application follows a modular, scalable **Feature-Based Architecture**. Core utilities, singleton services, and layout structures are clearly isolated from user features.
 
 ```mermaid
 graph TD
     App[App Module Shell] --> Layouts[Layouts / Shell]
-    Layouts --> Core[Core services / Guards]
+    Layouts --> Core[Core Services & Guards]
     Layouts --> Features[Feature Modules]
-    Layouts --> Shared[Shared widgets / Pipes]
+    Layouts --> Shared[Shared Widgets & Pipes]
     
     subgraph Core
         AuthService[AuthService]
         EmployeeService[EmployeeService]
         DeptService[DepartmentService]
+        AttendanceService[AttendanceService]
+        LeaveService[LeaveService]
         Guards[Auth & Role Guards]
     end
 
     subgraph Features
         Login[Login / Session]
         Dashboard[Dashboard Analytics]
-        Employees[Employee Directory / Forms]
-        Departments[Department Directory / Dialogs]
+        Employees[Employee Directory]
+        Departments[Department Directory]
+        Attendance[Attendance Dashboard & Logs]
+        Leaves[Leave Allowances & Approvals]
         Reports[Reports & CSV Exporters]
+        Settings[Profile & Preferences Control]
     end
 ```
 
@@ -42,7 +49,7 @@ graph TD
 
 *   **Framework:** Angular 20 (Standalone Components architecture)
 *   **State Management:** Angular Signals & RxJS Observables
-*   **Styles:** Vanilla SCSS (Responsive custom grid flows)
+*   **Styles:** Vanilla SCSS (Design Tokens, responsive grids, dark/light theme overrides)
 *   **Design System:** Angular Material Design (M3)
 *   **Forms:** Reactive Forms (Nested FormGroups with validators)
 *   **Router:** Angular Router with lazy loading & functional route guards
@@ -60,41 +67,52 @@ src/
 │   │   ├── constants/         # App constants (API, URLs)
 │   │   ├── guards/            # Functional Route & Role Guards
 │   │   ├── interceptors/      # Loading bar & Error Interceptors
-│   │   ├── models/            # Core models (Employee, Department, User)
-│   │   └── services/          # Services (Auth, Employee, Department, Notification, Loading)
+│   │   ├── models/            # Core models (Employee, Department, Attendance, Leave)
+│   │   └── services/          # Services (Auth, Employee, Department, Attendance, Leave)
 │   ├── layout/                # Main shells (AdminLayoutComponent)
 │   ├── features/              # Feature modules (Lazy-loaded modules)
-│   │   ├── dashboard/         # Dashboard KPI cards & SVG charts
+│   │   ├── dashboard/         # Overview KPI cards & SVG charts
 │   │   ├── departments/       # Department CRUD list & dialog forms
 │   │   ├── employees/         # Employee CRUD directory & profile details
-│   │   ├── login/             # Login forms
+│   │   ├── attendance/        # Attendance Dashboard, logs, & time fields
+│   │   ├── leaves/            # Leave allowances balance, requests, & approvals
+│   │   ├── settings/          # Tabbed preferences, profile forms, & dark/light theme toggler
+│   │   ├── login/             # Login Forms & Demo credentials hints
 │   │   ├── reports/           # Reports graphs, date filters & CSV exporters
 │   │   └── not-found/         # 404 views
 │   └── shared/                # Shared utilities
 │       ├── components/        # Reusable components (Confirm Dialog)
 │       └── pipes/             # Reusable formatters (PhoneFormat)
-└── assets/                    # Static image files and styles
+└── assets/                    # Static image files and global styles
 ```
 
 ---
 
 ## 🌟 Key Features
 
-1.  **Role-Based Access Control (RBAC):**
-    *   Protected routing with expected roles limits views dynamically:
-        *   **Admin:** Complete access (Dashboard, Employees, Departments, Reports, Settings).
-        *   **HR:** Employee directory, addition/editing, and department configurations.
-        *   **Manager:** Dashboard review, employee rosters, and reports.
+1.  **Premium SaaS UI/UX (Linear & Vercel Inspired):**
+    *   Sleek collapsible left sidebar with clean navigation pills.
+    *   Floating top toolbar with integrated simulated search console and notification alerts.
+    *   High-contrast, responsive layouts using **Inter** variable typography.
+    *   Native Dark/Light theme mode toggler with persistent state stored in `localStorage`.
+2.  **Attendance & Time-Card Logger:**
+    *   Attendance Dashboard tracking today's counts for Present, Absent, Late, and WFH stats.
+    *   Full CRUD logs table with sorting, searching, date range filters, and department/employee dropdown selectors.
+    *   Automatic working hours calculation based on check-in and check-out inputs.
+3.  **Leave & Allowance Approvals:**
+    *   Allowance balance grid cards displaying Casual, Sick, Earned, and WFH days remaining.
+    *   Interactive leave application forms validating date ranges and durations.
+    *   Managers and Admins can view leave details and choose to **Approve** or **Reject** leaves with custom comments.
+4.  **Role-Based Access Control (RBAC):**
+    *   Protected routing dynamically restricting layouts based on roles:
+        *   **Admin:** Complete access (Dashboard, Employees, Departments, Attendance, Leaves, Reports, Settings).
+        *   **HR:** Dashboard, Employees, Departments, Attendance, and Leaves.
+        *   **Manager:** Dashboard, Employees, Attendance, Leaves, and Reports.
     *   Functional auth and role validation guards intercept unauthorized route access.
-2.  **Live Analytics & SVG Charting:**
-    *   Responsive dashboard displaying total counts and active ratios.
-    *   No heavy graphing plugins needed: plots ratios using native, responsive **SVG Donut segment charts**, cumulative growth line drawings, and CSS columns.
-3.  **Complete Employee & Department CRUD Directories:**
-    *   Paginated material tables sorting and searching records.
-    *   Nested form groups mapping residential address parameters.
-    *   Confirmation warnings preventing deletes of departments with active staff allocations.
-4.  **CSV Reports Engine:**
-    *   Download customized reports using instant local Blob compilers mapping dates and departments.
+5.  **Live SVG Analytics:**
+    *   Visual distribution donut segment charts and line area curves plotted using native, responsive **SVG markup** instead of heavy graph libraries.
+6.  **CSV Export Engine:**
+    *   Export customized report queries instantly using local Blob compiler engines.
 
 ---
 
@@ -102,7 +120,7 @@ src/
 
 ### Prerequisites
 
-Ensure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
+Ensure you have Node.js installed (v18+ recommended).
 
 ### 1. Clone the Repository
 ```bash
@@ -139,8 +157,7 @@ npm start
 
 *   **Multi-tenant Organization Setup:** Supporting multiple regional branch entities.
 *   **PDF Paystub Generation:** Exporting employee salary slips directly.
-*   **Dark Mode Toggle:** Native Material theme swapper in the Settings view.
-*   **Audit logs:** Tracks records changes and log edits.
+*   **Audit Logging:** Database tracking logs capturing record modifications and credential changes.
 
 ---
 
