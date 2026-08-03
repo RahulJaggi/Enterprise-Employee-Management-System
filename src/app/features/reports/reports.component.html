@@ -1,0 +1,270 @@
+<div class="reports-container">
+  <header class="page-header">
+    <div class="header-text">
+      <h1>Reports & Analytics</h1>
+      <p>Analyze organization metrics, examine trends, and export structured data</p>
+    </div>
+    <div class="header-actions">
+      <button mat-stroked-button (click)="clearFilters()">
+        <mat-icon>clear_all</mat-icon>
+        Clear Filters
+      </button>
+      <button mat-flat-button color="primary" (click)="exportToCSV()">
+        <mat-icon>file_download</mat-icon>
+        Export CSV
+      </button>
+    </div>
+  </header>
+
+  <!-- Filter Card -->
+  <div class="filters-card">
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Start Joining Date</mat-label>
+      <input
+        matInput
+        type="date"
+        id="start-date-input"
+        [value]="startDate()"
+        (input)="onStartDateChange($event)"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>End Joining Date</mat-label>
+      <input
+        matInput
+        type="date"
+        id="end-date-input"
+        [value]="endDate()"
+        (input)="onEndDateChange($event)"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Department</mat-label>
+      <mat-select [value]="selectedDepartment()" (selectionChange)="onDepartmentChange($event.value)">
+        <mat-option value="All">All Departments</mat-option>
+        @for (dept of departmentsList(); track dept.id) {
+          <mat-option [value]="dept.name">{{ dept.name }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="filter-field">
+      <mat-label>Status</mat-label>
+      <mat-select [value]="selectedStatus()" (selectionChange)="onStatusChange($event.value)">
+        <mat-option value="All">All Statuses</mat-option>
+        <mat-option value="Active">Active</mat-option>
+        <mat-option value="Inactive">Inactive</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="kpi-grid">
+    <mat-card class="kpi-card">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper primary">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ headcount() }}</span>
+          <span class="kpi-label">Filtered Headcount</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper success">
+          <mat-icon>trending_up</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ activeRatio() }}%</span>
+          <span class="kpi-label">Active Ratio</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper warn">
+          <mat-icon>monetization_on</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ averageSalary() | currency: 'USD':'symbol':'1.0-0' }}</span>
+          <span class="kpi-label">Average Salary</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="kpi-card">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper accent">
+          <mat-icon>account_balance_wallet</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ totalSalaryExpense() | currency: 'USD':'symbol':'1.0-0' }}</span>
+          <span class="kpi-label">Total Salary Expense</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Charts Layout -->
+  <div class="charts-layout">
+    <!-- Cumulative Growth Line Chart -->
+    <mat-card class="chart-card span-2">
+      <mat-card-header>
+        <mat-card-title>Cumulative Employee Growth</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="chart-content-center">
+        @if (growthChartPoints().length > 0) {
+          <div class="svg-container">
+            <svg viewBox="0 0 300 150" class="growth-svg" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#673ab7" stop-opacity="0.4" />
+                  <stop offset="100%" stop-color="#673ab7" stop-opacity="0.0" />
+                </linearGradient>
+              </defs>
+              <!-- Area -->
+              <path [attr.d]="growthAreaPath()" fill="url(#areaGrad)"></path>
+              <!-- Line -->
+              <path
+                [attr.d]="growthPath()"
+                fill="transparent"
+                stroke="#673ab7"
+                stroke-width="2"
+              ></path>
+              <!-- Dots -->
+              @for (pt of growthChartPoints(); track pt.label) {
+                <circle [attr.cx]="pt.x" [attr.cy]="pt.y" r="3.5" fill="#673ab7"></circle>
+                <text
+                  [attr.x]="pt.x"
+                  [attr.y]="pt.y - 8"
+                  text-anchor="middle"
+                  class="chart-dot-value"
+                >
+                  {{ pt.val }}
+                </text>
+              }
+            </svg>
+            <div class="svg-axis-labels">
+              @for (pt of growthChartPoints(); track pt.label) {
+                <span [style.left.px]="pt.x - 12" class="axis-label">{{ pt.label }}</span>
+              }
+            </div>
+          </div>
+        } @else {
+          <div class="chart-empty-state">
+            <mat-icon>show_chart</mat-icon>
+            <p>No growth details available for selected filters</p>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Monthly Joining Trend (CSS Bars) -->
+    <mat-card class="chart-card">
+      <mat-card-header>
+        <mat-card-title>Monthly Joining Trend</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="trend-bar-chart">
+          @for (month of monthlyJoiningTrend(); track month.label) {
+            <div class="trend-column">
+              <span class="column-value">{{ month.count }}</span>
+              <div class="column-bar-wrapper">
+                <div class="column-bar-fill" [style.height.%]="month.percentage"></div>
+              </div>
+              <span class="column-label">{{ month.label }}</span>
+            </div>
+          }
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Department Distribution (Progress Bar list) -->
+    <mat-card class="chart-card span-3">
+      <mat-card-header>
+        <mat-card-title>Department Distribution</mat-card-title>
+      </mat-card-header>
+      <mat-card-content class="dept-dist-list">
+        @for (dept of departmentDistribution(); track dept.name) {
+          <div class="dept-dist-item">
+            <div class="dept-dist-header">
+              <span class="dept-name">{{ dept.name }} ({{ dept.code }})</span>
+              <span class="dept-val">{{ dept.count }} staff ({{ dept.percentage }}%)</span>
+            </div>
+            <div class="progress-bar-container">
+              <div class="progress-bar-fill" [style.width.%]="dept.percentage"></div>
+            </div>
+          </div>
+        }
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Recent Activity Data Table -->
+  <mat-card class="activity-card">
+    <mat-card-header>
+      <mat-card-title>Reported Employees Records</mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="table-container">
+      <table mat-table [dataSource]="filteredEmployees()" class="report-table">
+        <!-- Code Column -->
+        <ng-container matColumnDef="employeeCode">
+          <th mat-header-cell *matHeaderCellDef>Code</th>
+          <td mat-cell *matCellDef="let emp" class="code-text">{{ emp.employeeCode }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let emp" class="name-text">{{ emp.name }}</td>
+        </ng-container>
+
+        <!-- Department Column -->
+        <ng-container matColumnDef="department">
+          <th mat-header-cell *matHeaderCellDef>Department</th>
+          <td mat-cell *matCellDef="let emp">{{ emp.department }}</td>
+        </ng-container>
+
+        <!-- Joining Date Column -->
+        <ng-container matColumnDef="joiningDate">
+          <th mat-header-cell *matHeaderCellDef>Joined Date</th>
+          <td mat-cell *matCellDef="let emp">{{ emp.joiningDate | date: 'mediumDate' }}</td>
+        </ng-container>
+
+        <!-- Salary Column -->
+        <ng-container matColumnDef="salary">
+          <th mat-header-cell *matHeaderCellDef>Annual Salary</th>
+          <td mat-cell *matCellDef="let emp" class="salary-text">
+            {{ emp.salary | currency: 'USD':'symbol':'1.0-0' }}
+          </td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let emp">
+            <span class="status-badge" [class.active]="emp.status === 'Active'">
+              {{ emp.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      @if (filteredEmployees().length === 0) {
+        <div class="table-empty-state">
+          <mat-icon>info_outline</mat-icon>
+          <p>No matching employee records found for the selected filters.</p>
+        </div>
+      }
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -57,6 +57,7 @@ export class AdminLayoutComponent {
     if (url.includes('/employees')) return 'Employees';
     if (url.includes('/departments')) return 'Departments';
     if (url.includes('/settings')) return 'Settings';
+    if (url.includes('/reports')) return 'Reports & Analytics';
     return 'Not Found';
   });
 

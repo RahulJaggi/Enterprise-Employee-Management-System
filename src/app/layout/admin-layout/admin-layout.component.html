@@ -39,6 +39,12 @@
           <span matListItemTitle>Settings</span>
         }
       </a>
+      <a mat-list-item routerLink="/reports" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>assessment</mat-icon>
+        @if (!sidebarCollapsed()) {
+          <span matListItemTitle>Reports</span>
+        }
+      </a>
     </mat-nav-list>
 
     <div class="sidenav-footer">
