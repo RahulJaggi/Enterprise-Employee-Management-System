@@ -1,0 +1,146 @@
+.sidenav-container {
+  height: 100vh;
+  width: 100vw;
+}
+
+.sidenav {
+  width: 260px;
+  background-color: var(--mat-sys-surface-container-low, #f0f4f9);
+  border-right: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  &.collapsed {
+    width: 72px;
+  }
+}
+
+.sidenav-branding {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 16px;
+  border-bottom: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+  color: var(--mat-sys-primary, #673ab7);
+  font-weight: 500;
+  font-size: 1.25rem;
+  overflow: hidden;
+  white-space: nowrap;
+
+  .branding-icon {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+  }
+}
+
+.sidenav-list {
+  flex: 1;
+  padding-top: 8px;
+
+  a {
+    margin: 4px 12px;
+    border-radius: 28px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    color: var(--mat-sys-on-surface-variant, #49454f);
+
+    &.active-link {
+      background-color: var(--mat-sys-secondary-container, #e8def8);
+      color: var(--mat-sys-on-secondary-container, #1d192b);
+      font-weight: 500;
+    }
+  }
+}
+
+.sidenav-footer {
+  padding: 8px;
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--mat-sys-outline-variant, #e0e0e0);
+}
+
+.sidenav-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  z-index: 10;
+  height: 64px;
+}
+
+.toolbar-title {
+  font-size: 1.25rem;
+  margin-left: 8px;
+}
+
+.toolbar-spacer {
+  flex: 1;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+}
+
+.user-name {
+  font-size: 0.9rem;
+}
+
+.global-loader {
+  position: absolute;
+  top: 64px;
+  left: 0;
+  right: 0;
+  z-index: 20;
+}
+
+.page-container {
+  flex: 1;
+  padding: 24px;
+  background-color: var(--mat-sys-surface, #fafdf6);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.breadcrumbs-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--mat-sys-on-surface-variant, #5f6368);
+  margin-bottom: 20px;
+
+  .breadcrumb-item {
+    font-weight: 500;
+
+    &.active {
+      color: var(--mat-sys-primary, #673ab7);
+    }
+  }
+
+  .breadcrumb-separator {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+  }
+}
+
+.content-viewport {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}

@@ -1,0 +1,98 @@
+<mat-sidenav-container class="sidenav-container">
+  <!-- Collapsible Sidebar -->
+  <mat-sidenav
+    #sidenav
+    mode="side"
+    [opened]="sidebarOpened()"
+    class="sidenav"
+    [class.collapsed]="sidebarCollapsed()"
+  >
+    <div class="sidenav-branding">
+      <mat-icon class="branding-icon">corporate_fare</mat-icon>
+      @if (!sidebarCollapsed()) {
+        <span class="branding-title">Enterprise HR</span>
+      }
+    </div>
+
+    <mat-nav-list class="sidenav-list">
+      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>dashboard</mat-icon>
+        @if (!sidebarCollapsed()) {
+          <span matListItemTitle>Dashboard</span>
+        }
+      </a>
+      <a mat-list-item routerLink="/employees" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>people</mat-icon>
+        @if (!sidebarCollapsed()) {
+          <span matListItemTitle>Employees</span>
+        }
+      </a>
+      <a mat-list-item routerLink="/departments" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>domain</mat-icon>
+        @if (!sidebarCollapsed()) {
+          <span matListItemTitle>Departments</span>
+        }
+      </a>
+      <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
+        <mat-icon matListItemIcon>settings</mat-icon>
+        @if (!sidebarCollapsed()) {
+          <span matListItemTitle>Settings</span>
+        }
+      </a>
+    </mat-nav-list>
+
+    <div class="sidenav-footer">
+      <button mat-icon-button (click)="toggleCollapse()">
+        <mat-icon>{{ sidebarCollapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
+      </button>
+    </div>
+  </mat-sidenav>
+
+  <!-- Main Content Wrapper -->
+  <mat-sidenav-content class="sidenav-content">
+    <!-- Top Toolbar -->
+    <mat-toolbar color="primary" class="toolbar">
+      <button mat-icon-button (click)="toggleSidebar()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span class="toolbar-title">Enterprise Employee Management</span>
+      <span class="toolbar-spacer"></span>
+
+      <!-- User Menu -->
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+        <mat-icon>account_circle</mat-icon>
+        <span class="user-name">HR Admin</span>
+      </button>
+      <mat-menu #userMenu="matMenu">
+        <button mat-menu-item routerLink="/settings">
+          <mat-icon>settings</mat-icon>
+          <span>Settings</span>
+        </button>
+        <mat-divider></mat-divider>
+        <button mat-menu-item (click)="logout()">
+          <mat-icon>exit_to_app</mat-icon>
+          <span>Logout</span>
+        </button>
+      </mat-menu>
+    </mat-toolbar>
+
+    <!-- Global API Loader Progress Bar -->
+    @if (isLoading()) {
+      <mat-progress-bar mode="indeterminate" class="global-loader"></mat-progress-bar>
+    }
+
+    <!-- Content Outlet Area -->
+    <main class="page-container">
+      <!-- Dynamic Page Header / Breadcrumbs -->
+      <div class="breadcrumbs-container">
+        <span class="breadcrumb-item home">Enterprise</span>
+        <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>
+        <span class="breadcrumb-item active">{{ activeRouteTitle() }}</span>
+      </div>
+
+      <div class="content-viewport">
+        <router-outlet></router-outlet>
+      </div>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>
