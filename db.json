@@ -712,5 +712,63 @@
       "status": "Absent"
     }
   ],
+  "leaves": [
+    {
+      "id": "1",
+      "employeeId": "1",
+      "employeeName": "Eleanor Vance",
+      "employeeCode": "EMP-001",
+      "department": "Executive Management",
+      "leaveType": "Earned",
+      "startDate": "2026-08-10",
+      "endDate": "2026-08-14",
+      "numberOfDays": 5,
+      "reason": "Summer family vacation.",
+      "status": "Pending",
+      "managerComment": ""
+    },
+    {
+      "id": "2",
+      "employeeId": "2",
+      "employeeName": "Marcus Aurelius",
+      "employeeCode": "EMP-002",
+      "department": "Engineering",
+      "leaveType": "Sick",
+      "startDate": "2026-08-01",
+      "endDate": "2026-08-02",
+      "numberOfDays": 2,
+      "reason": "Dental surgery recovery.",
+      "status": "Approved",
+      "managerComment": "Approved. Get well soon."
+    },
+    {
+      "id": "3",
+      "employeeId": "3",
+      "employeeName": "Sophia Chen",
+      "employeeCode": "EMP-003",
+      "department": "Product Management",
+      "leaveType": "Casual",
+      "startDate": "2026-08-05",
+      "endDate": "2026-08-05",
+      "numberOfDays": 1,
+      "reason": "Personal urgent matters.",
+      "status": "Approved",
+      "managerComment": "Noted and approved."
+    },
+    {
+      "id": "4",
+      "employeeId": "4",
+      "employeeName": "Diana Prince",
+      "employeeCode": "EMP-004",
+      "department": "Human Resources",
+      "leaveType": "Work From Home",
+      "startDate": "2026-08-18",
+      "endDate": "2026-08-20",
+      "numberOfDays": 3,
+      "reason": "Attending remote compliance training sessions.",
+      "status": "Pending",
+      "managerComment": ""
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

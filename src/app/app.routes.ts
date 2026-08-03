@@ -72,6 +72,13 @@ export const routes: Routes = [
           import('./features/attendance/attendance.component').then((m) => m.AttendanceComponent),
       },
       {
+        path: 'leaves',
+        canActivate: [roleGuard],
+        data: { expectedRoles: ['Admin', 'HR', 'Manager'] },
+        loadComponent: () =>
+          import('./features/leaves/leaves.component').then((m) => m.LeavesComponent),
+      },
+      {
         path: 'reports',
         canActivate: [roleGuard],
         data: { expectedRoles: ['Admin', 'Manager'] },

@@ -1,0 +1,276 @@
+<div class="saas-leaves">
+  <!-- Page Header -->
+  <header class="saas-header">
+    <div class="header-text">
+      <h1>Leave Management</h1>
+      <p class="subtitle">Log absence requests, view current balances, and manage team approvals.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="openApplyDialog()">
+        <mat-icon>add</mat-icon>
+        Apply Leave
+      </button>
+    </div>
+  </header>
+
+  <!-- Tabs wrapper -->
+  <mat-tab-group class="leaves-tabs" dynamicHeight>
+    <!-- Tab 1: Dashboard -->
+    <mat-tab label="Dashboard">
+      <div class="tab-content">
+        <!-- Leave Balance Cards -->
+        <h2 class="section-title">Leave Allowance Balances</h2>
+        <div class="balances-grid">
+          @for (bal of balances(); track bal.type) {
+            <div class="balance-card">
+              <span class="card-type">{{ bal.type }}</span>
+              <div class="card-values">
+                <span class="num-remaining">{{ bal.remaining }}</span>
+                <span class="num-total">/ {{ bal.allocated }} days left</span>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" [style.background-color]="bal.color" [style.width.%]="(bal.used / bal.allocated) * 100"></div>
+              </div>
+              <span class="card-meta">{{ bal.used }} days taken</span>
+            </div>
+          }
+        </div>
+
+        <mat-divider></mat-divider>
+
+        <!-- KPI Row -->
+        <h2 class="section-title">Request Statistics</h2>
+        <div class="saas-kpis">
+          <div class="kpi-panel">
+            <span class="kpi-tag">Pending Requests</span>
+            <span class="value warn-color">{{ pendingCount() }}</span>
+            <span class="kpi-meta">Awaiting manager resolutions</span>
+          </div>
+
+          <div class="kpi-panel">
+            <span class="kpi-tag">Approved Requests</span>
+            <span class="value success-color">{{ approvedCount() }}</span>
+            <span class="kpi-meta">Resolved and booked absences</span>
+          </div>
+
+          <div class="kpi-panel">
+            <span class="kpi-tag">Rejected Requests</span>
+            <span class="value danger-color">{{ rejectedCount() }}</span>
+            <span class="kpi-meta">Absence requests turned down</span>
+          </div>
+        </div>
+
+        <!-- Donut Distribution Chart -->
+        <div class="saas-grid">
+          <div class="panel span-6">
+            <div class="panel-header">
+              <h2>Approved Leave Type Demographics</h2>
+            </div>
+            <div class="panel-body chart-panel-body">
+              @if (donutSegments().length > 0) {
+                <div class="donut-chart-box">
+                  <svg viewBox="0 0 42 42" class="donut-canvas">
+                    <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--border-color)" stroke-width="2"></circle>
+                    @for (seg of donutSegments(); track seg.id) {
+                      <circle
+                        cx="21"
+                        cy="21"
+                        r="15.91549430918954"
+                        fill="transparent"
+                        [attr.stroke]="seg.color"
+                        stroke-width="3"
+                        [attr.stroke-dasharray]="seg.strokeDasharray"
+                        [attr.stroke-dashoffset]="seg.strokeDashoffset"
+                        class="donut-canvas-segment"
+                      ></circle>
+                    }
+                  </svg>
+                  <div class="donut-caption">
+                    <span class="caption-num">{{ approvedCount() }}</span>
+                    <span class="caption-lbl">Approved</span>
+                  </div>
+                </div>
+
+                <div class="chart-legends-grid">
+                  @for (seg of donutSegments(); track seg.id) {
+                    <div class="legend-row">
+                      <span class="bullet" [style.background-color]="seg.color"></span>
+                      <span class="code">{{ seg.label }}</span>
+                      <span class="count">{{ seg.count }} days</span>
+                      <span class="percent">{{ seg.percentage }}%</span>
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="empty-chart">
+                  <mat-icon>insert_chart</mat-icon>
+                  <p>No approved leave requests registered yet.</p>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 2: Leave Requests Log -->
+    <mat-tab label="Leave Requests">
+      <div class="tab-content">
+        <!-- Filter Console -->
+        <div class="filter-console">
+          <div class="search-box">
+            <mat-icon>search</mat-icon>
+            <input
+              type="text"
+              placeholder="Search by name, code, or reason..."
+              [value]="searchQuery()"
+              (input)="onSearch($event)"
+            />
+          </div>
+
+          <div class="date-input-box">
+            <span class="lbl">From</span>
+            <input type="date" [value]="startDate()" (input)="onStartDateChange($event)" />
+          </div>
+
+          <div class="date-input-box">
+            <span class="lbl">To</span>
+            <input type="date" [value]="endDate()" (input)="onEndDateChange($event)" />
+          </div>
+
+          <div class="select-dropdown">
+            <mat-icon class="select-icon">business_center</mat-icon>
+            <select [value]="selectedDepartment()" (change)="onDepartmentChange($any($event.target).value)">
+              <option value="All">All Departments</option>
+              @for (dept of departments(); track dept.id) {
+                <option [value]="dept.name">{{ dept.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="select-dropdown">
+            <mat-icon class="select-icon">person</mat-icon>
+            <select [value]="selectedEmployee()" (change)="onEmployeeChange($any($event.target).value)">
+              <option value="All">All Employees</option>
+              @for (emp of employees(); track emp.id) {
+                <option [value]="emp.id">{{ emp.name }}</option>
+              }
+            </select>
+          </div>
+
+          <button class="btn btn-outline" (click)="clearFilters()" title="Reset Filters">
+            <mat-icon>clear_all</mat-icon>
+          </button>
+        </div>
+
+        <!-- Data table -->
+        <div class="table-card">
+          <table
+            mat-table
+            matSort
+            [dataSource]="paginatedLeaves()"
+            (matSortChange)="onSortChange($event)"
+            [matSortActive]="sortActive()"
+            [matSortDirection]="sortDirection()"
+            class="saas-table"
+          >
+            <!-- Member Name -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee</th>
+              <td mat-cell *matCellDef="let rec" class="member-cell">
+                <span class="name-text">{{ rec.employeeName }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Employee Code -->
+            <ng-container matColumnDef="employeeCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+              <td mat-cell *matCellDef="let rec" class="code-cell">{{ rec.employeeCode }}</td>
+            </ng-container>
+
+            <!-- Leave Type -->
+            <ng-container matColumnDef="leaveType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Leave Type</th>
+              <td mat-cell *matCellDef="let rec">
+                <span class="badge badge-info">{{ rec.leaveType }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Duration dates -->
+            <ng-container matColumnDef="duration">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Duration Dates</th>
+              <td mat-cell *matCellDef="let rec" class="duration-cell">
+                {{ rec.startDate | date: 'mediumDate' }} &mdash; {{ rec.endDate | date: 'mediumDate' }}
+              </td>
+            </ng-container>
+
+            <!-- Days -->
+            <ng-container matColumnDef="numberOfDays">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Days</th>
+              <td mat-cell *matCellDef="let rec" class="days-cell">{{ rec.numberOfDays }} d</td>
+            </ng-container>
+
+            <!-- Reason -->
+            <ng-container matColumnDef="reason">
+              <th mat-header-cell *matHeaderCellDef>Reason</th>
+              <td mat-cell *matCellDef="let rec" class="reason-cell">{{ rec.reason }}</td>
+            </ng-container>
+
+            <!-- Status -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let rec">
+                <span
+                  class="badge"
+                  [class.badge-success]="rec.status === 'Approved'"
+                  [class.badge-warn]="rec.status === 'Pending'"
+                  [class.badge-danger]="rec.status === 'Rejected'"
+                >
+                  {{ rec.status }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Actions -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+              <td mat-cell *matCellDef="let rec" class="actions-cell">
+                <button mat-icon-button color="accent" (click)="openDetailDialog(rec)" title="View Details / Action">
+                  <mat-icon>{{ rec.status === 'Pending' ? 'assignment_turned_in' : 'visibility' }}</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteRecord(rec.id, rec.employeeName)" title="Delete Request">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+
+          <!-- Empty State -->
+          @if (filteredLeaves().length === 0) {
+            <div class="empty-state">
+              <mat-icon class="empty-icon">search_off</mat-icon>
+              <h3>No leave requests found</h3>
+              <p>Try modifying your filters, clearing your search, or apply for leave.</p>
+            </div>
+          }
+
+          <!-- Paginator Footer -->
+          <div class="table-footer">
+            <mat-paginator
+              [length]="filteredLeaves().length"
+              [pageSize]="pageSize()"
+              [pageIndex]="pageIndex()"
+              [pageSizeOptions]="[5, 10, 25]"
+              (page)="onPageChange($event)"
+              class="custom-paginator"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
