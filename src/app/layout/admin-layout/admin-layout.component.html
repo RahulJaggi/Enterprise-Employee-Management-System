@@ -15,36 +15,14 @@
     </div>
 
     <mat-nav-list class="sidenav-list">
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link">
-        <mat-icon matListItemIcon>dashboard</mat-icon>
-        @if (!sidebarCollapsed()) {
-          <span matListItemTitle>Dashboard</span>
-        }
-      </a>
-      <a mat-list-item routerLink="/employees" routerLinkActive="active-link">
-        <mat-icon matListItemIcon>people</mat-icon>
-        @if (!sidebarCollapsed()) {
-          <span matListItemTitle>Employees</span>
-        }
-      </a>
-      <a mat-list-item routerLink="/departments" routerLinkActive="active-link">
-        <mat-icon matListItemIcon>domain</mat-icon>
-        @if (!sidebarCollapsed()) {
-          <span matListItemTitle>Departments</span>
-        }
-      </a>
-      <a mat-list-item routerLink="/settings" routerLinkActive="active-link">
-        <mat-icon matListItemIcon>settings</mat-icon>
-        @if (!sidebarCollapsed()) {
-          <span matListItemTitle>Settings</span>
-        }
-      </a>
-      <a mat-list-item routerLink="/reports" routerLinkActive="active-link">
-        <mat-icon matListItemIcon>assessment</mat-icon>
-        @if (!sidebarCollapsed()) {
-          <span matListItemTitle>Reports</span>
-        }
-      </a>
+      @for (item of navItems(); track item.path) {
+        <a mat-list-item [routerLink]="item.path" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>{{ item.icon }}</mat-icon>
+          @if (!sidebarCollapsed()) {
+            <span matListItemTitle>{{ item.label }}</span>
+          }
+        </a>
+      }
     </mat-nav-list>
 
     <div class="sidenav-footer">
@@ -67,14 +45,16 @@
       <!-- User Menu -->
       <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
         <mat-icon>account_circle</mat-icon>
-        <span class="user-name">HR Admin</span>
+        <span class="user-name">{{ currentUser()?.username }} ({{ currentUser()?.role }})</span>
       </button>
       <mat-menu #userMenu="matMenu">
-        <button mat-menu-item routerLink="/settings">
-          <mat-icon>settings</mat-icon>
-          <span>Settings</span>
-        </button>
-        <mat-divider></mat-divider>
+        @if (currentUser()?.role === 'Admin') {
+          <button mat-menu-item routerLink="/settings">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </button>
+          <mat-divider></mat-divider>
+        }
         <button mat-menu-item (click)="logout()">
           <mat-icon>exit_to_app</mat-icon>
           <span>Logout</span>

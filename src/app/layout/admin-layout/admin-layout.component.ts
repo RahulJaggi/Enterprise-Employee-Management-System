@@ -9,7 +9,16 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { LoadingService } from '../../core/services/loading.service';
+import { AuthService } from '../../core/services/auth.service';
+import { UserRole } from '../../core/models/user.model';
 import { filter } from 'rxjs/operators';
+
+interface NavItem {
+  path: string;
+  label: string;
+  icon: string;
+  roles: UserRole[];
+}
 
 @Component({
   selector: 'app-admin-layout',
@@ -33,12 +42,29 @@ import { filter } from 'rxjs/operators';
 export class AdminLayoutComponent {
   private readonly router = inject(Router);
   private readonly loadingService = inject(LoadingService);
+  private readonly authService = inject(AuthService);
 
   // States using signals
   readonly sidebarOpened = signal(true);
   readonly sidebarCollapsed = signal(false);
   readonly currentUrl = signal(this.router.url);
   readonly isLoading = this.loadingService.loading;
+  readonly currentUser = this.authService.currentUser;
+
+  readonly navItems = computed<NavItem[]>(() => {
+    const user = this.currentUser();
+    if (!user) return [];
+
+    const items: NavItem[] = [
+      { path: '/dashboard', label: 'Dashboard', icon: 'dashboard', roles: ['Admin', 'HR', 'Manager'] },
+      { path: '/employees', label: 'Employees', icon: 'people', roles: ['Admin', 'HR', 'Manager'] },
+      { path: '/departments', label: 'Departments', icon: 'domain', roles: ['Admin', 'HR'] },
+      { path: '/reports', label: 'Reports', icon: 'assessment', roles: ['Admin', 'Manager'] },
+      { path: '/settings', label: 'Settings', icon: 'settings', roles: ['Admin'] },
+    ];
+
+    return items.filter((item) => item.roles.includes(user.role));
+  });
 
   constructor() {
     // Listen to router events to update breadcrumb title
@@ -70,7 +96,7 @@ export class AdminLayoutComponent {
   }
 
   logout(): void {
-    // Basic mock logout
-    alert('Mock Logout Action Triggered.');
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 }

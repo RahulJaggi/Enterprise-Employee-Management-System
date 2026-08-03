@@ -1,10 +1,18 @@
 import { Routes } from '@angular/router';
 import { AdminLayoutComponent } from './layout/admin-layout/admin-layout.component';
+import { authGuard } from './core/guards/auth.guard';
+import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
   {
+    path: 'login',
+    loadComponent: () =>
+      import('./features/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
     path: '',
     component: AdminLayoutComponent,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       {
@@ -24,6 +32,8 @@ export const routes: Routes = [
           },
           {
             path: 'new',
+            canActivate: [roleGuard],
+            data: { expectedRoles: ['Admin', 'HR'] },
             loadComponent: () =>
               import('./features/employees/employee-form/employee-form.component').then(
                 (m) => m.EmployeeFormComponent
@@ -38,6 +48,8 @@ export const routes: Routes = [
           },
           {
             path: ':id/edit',
+            canActivate: [roleGuard],
+            data: { expectedRoles: ['Admin', 'HR'] },
             loadComponent: () =>
               import('./features/employees/employee-form/employee-form.component').then(
                 (m) => m.EmployeeFormComponent
@@ -47,18 +59,24 @@ export const routes: Routes = [
       },
       {
         path: 'departments',
+        canActivate: [roleGuard],
+        data: { expectedRoles: ['Admin', 'HR'] },
         loadComponent: () =>
           import('./features/departments/departments.component').then((m) => m.DepartmentsComponent),
       },
       {
-        path: 'settings',
-        loadComponent: () =>
-          import('./features/settings/settings.component').then((m) => m.SettingsComponent),
-      },
-      {
         path: 'reports',
+        canActivate: [roleGuard],
+        data: { expectedRoles: ['Admin', 'Manager'] },
         loadComponent: () =>
           import('./features/reports/reports.component').then((m) => m.ReportsComponent),
+      },
+      {
+        path: 'settings',
+        canActivate: [roleGuard],
+        data: { expectedRoles: ['Admin'] },
+        loadComponent: () =>
+          import('./features/settings/settings.component').then((m) => m.SettingsComponent),
       },
     ],
   },
