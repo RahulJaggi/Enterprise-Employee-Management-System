@@ -1,119 +1,111 @@
-<div class="employee-detail-container">
+<div class="saas-detail-wrapper">
   @if (employee(); as emp) {
-    <header class="page-header">
-      <button mat-icon-button routerLink="/employees" title="Back to Directory">
+    <!-- Page Header -->
+    <header class="saas-header">
+      <button class="btn-back" routerLink="/employees" title="Go back to directory">
         <mat-icon>arrow_back</mat-icon>
       </button>
       <div class="header-text">
-        <h1>Employee Profile</h1>
-        <p>Viewing details of {{ emp.name }} ({{ emp.employeeCode }})</p>
+        <h1>{{ emp.name }}</h1>
+        <p class="subtitle">{{ emp.designation }} &bull; {{ emp.employeeCode }}</p>
       </div>
       <div class="header-actions">
-        <button mat-flat-button color="primary" [routerLink]="['/employees', emp.id, 'edit']">
+        <button class="btn btn-outline" [routerLink]="['/employees', emp.id, 'edit']">
           <mat-icon>edit</mat-icon>
           Edit Profile
         </button>
-        <button mat-stroked-button color="warn" (click)="deleteEmployee(emp.id, emp.name)">
+        <button class="btn btn-danger" (click)="deleteEmployee(emp.id, emp.name)">
           <mat-icon>delete</mat-icon>
-          Delete
+          Terminate
         </button>
       </div>
     </header>
 
-    <div class="profile-layout">
-      <!-- Sidebar Card: Profile Summary -->
-      <mat-card class="summary-card">
-        <mat-card-content class="summary-content">
-          <img [src]="emp.profileImage" alt="Avatar" class="avatar-large" />
-          <h2 class="emp-name">{{ emp.name }}</h2>
-          <p class="emp-designation">{{ emp.designation }}</p>
-          <span class="status-badge" [class.active]="emp.status === 'Active'">
+    <!-- Content Layout Split -->
+    <div class="saas-detail-grid">
+      <!-- Left sidebar column (Avatar & Status Card) -->
+      <div class="grid-col span-2">
+        <div class="profile-card">
+          <div class="avatar-container">
+            <img [src]="emp.profileImage" alt="Avatar" class="avatar-img" />
+            <span class="status-indicator" [class.active]="emp.status === 'Active'"></span>
+          </div>
+          <h2 class="profile-name">{{ emp.name }}</h2>
+          <p class="profile-title">{{ emp.designation }}</p>
+          <span class="badge" [class.badge-success]="emp.status === 'Active'" [class.badge-warn]="emp.status === 'Inactive'">
             {{ emp.status }}
           </span>
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
 
-      <!-- Main Info Cards -->
-      <div class="details-cards">
-        <!-- Card 1: Job Info -->
-        <mat-card class="info-card">
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon>business_center</mat-icon>
-              Employment Details
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="info-grid">
-            <div class="info-item">
-              <span class="label">Employee Code</span>
-              <span class="value code">{{ emp.employeeCode }}</span>
+      <!-- Right main info columns -->
+      <div class="grid-col span-4">
+        <!-- Panel 1: Job Info -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Job Specifications</h2>
+          </div>
+          <div class="panel-body info-grid">
+            <div class="info-row">
+              <span class="lbl">ID Code</span>
+              <span class="val monospace">{{ emp.employeeCode }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">Department</span>
-              <span class="value">{{ emp.department }}</span>
+            <div class="info-row">
+              <span class="lbl">Department</span>
+              <span class="val">{{ emp.department }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">Designation</span>
-              <span class="value">{{ emp.designation }}</span>
+            <div class="info-row">
+              <span class="lbl">Joined Date</span>
+              <span class="val">{{ emp.joiningDate | date: 'longDate' }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">Joining Date</span>
-              <span class="value">{{ emp.joiningDate | date: 'longDate' }}</span>
+            <div class="info-row">
+              <span class="lbl">Yearly Salary</span>
+              <span class="val salary">{{ emp.salary | currency: 'USD':'symbol':'1.0-0' }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">Annual Salary</span>
-              <span class="value salary">{{ emp.salary | currency: 'USD':'symbol':'1.0-0' }}</span>
-            </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
 
-        <!-- Card 2: Contact Info -->
-        <mat-card class="info-card">
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon>contact_phone</mat-icon>
-              Contact Information
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="info-grid">
-            <div class="info-item">
-              <span class="label">Email Address</span>
-              <span class="value">{{ emp.email }}</span>
+        <!-- Panel 2: Contact Info -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Contact Listing</h2>
+          </div>
+          <div class="panel-body info-grid">
+            <div class="info-row">
+              <span class="lbl">Email Address</span>
+              <span class="val">{{ emp.email }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">Phone Number</span>
-              <span class="value">{{ emp.phone | phoneFormat }}</span>
+            <div class="info-row">
+              <span class="lbl">Mobile Phone</span>
+              <span class="val">{{ emp.phone | phoneFormat }}</span>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
 
-        <!-- Card 3: Address Info -->
-        <mat-card class="info-card">
-          <mat-card-header>
-            <mat-card-title>
-              <mat-icon>home</mat-icon>
-              Residential Address
-            </mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="info-grid">
-            <div class="info-item">
-              <span class="label">Street Address</span>
-              <span class="value">{{ emp.address.street }}</span>
+        <!-- Panel 3: Residential Address -->
+        <div class="panel">
+          <div class="panel-header">
+            <h2>Home Address</h2>
+          </div>
+          <div class="panel-body info-grid">
+            <div class="info-row">
+              <span class="lbl">Street</span>
+              <span class="val">{{ emp.address.street }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">City</span>
-              <span class="value">{{ emp.address.city }}</span>
+            <div class="info-row">
+              <span class="lbl">City</span>
+              <span class="val">{{ emp.address.city }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">State / Province</span>
-              <span class="value">{{ emp.address.state }}</span>
+            <div class="info-row">
+              <span class="lbl">State</span>
+              <span class="val">{{ emp.address.state }}</span>
             </div>
-            <div class="info-item">
-              <span class="label">ZIP / Postal Code</span>
-              <span class="value">{{ emp.address.zip }}</span>
+            <div class="info-row">
+              <span class="lbl">ZIP / Postal Code</span>
+              <span class="val">{{ emp.address.zip }}</span>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </div>
   }

@@ -1,26 +1,32 @@
-<div class="departments-container">
-  <header class="page-header">
-    <div class="header-text">
-      <h1>Department Management</h1>
-      <p>Configure corporate divisions, allocate leaders, and review team statistics</p>
+<div class="saas-departments">
+  <!-- Page Header -->
+  <header class="saas-header">
+    <div class="header-content">
+      <h1>Departments</h1>
+      <p class="subtitle">Configure corporate divisions, allocate managers, and review headcounts.</p>
     </div>
-    <button mat-flat-button color="primary" (click)="openAddDialog()">
-      <mat-icon>add</mat-icon>
-      Add Department
-    </button>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+        Add Department
+      </button>
+    </div>
   </header>
 
-  <!-- Filters Row -->
-  <div class="filters-card">
-    <mat-form-field appearance="outline" class="search-field">
-      <mat-label>Search Departments</mat-label>
-      <input matInput placeholder="Search by name, code, or manager..." (input)="onSearch($event)" />
-      <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+  <!-- Filter Console -->
+  <div class="filter-console">
+    <div class="search-box">
+      <mat-icon>search</mat-icon>
+      <input
+        type="text"
+        placeholder="Search departments by name, code, or manager..."
+        (input)="onSearch($event)"
+      />
+    </div>
   </div>
 
   <!-- Data Table -->
-  <div class="table-container mat-elevation-z1">
+  <div class="table-card">
     <table
       mat-table
       matSort
@@ -28,24 +34,24 @@
       (matSortChange)="onSortChange($event)"
       [matSortActive]="sortActive()"
       [matSortDirection]="sortDirection()"
-      class="departments-table"
+      class="saas-table"
     >
       <!-- Code Column -->
       <ng-container matColumnDef="code">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
-        <td mat-cell *matCellDef="let dept" class="code-text">{{ dept.code }}</td>
+        <td mat-cell *matCellDef="let dept" class="code-cell">{{ dept.code }}</td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-        <td mat-cell *matCellDef="let dept" class="name-text">{{ dept.name }}</td>
+        <td mat-cell *matCellDef="let dept" class="name-cell">{{ dept.name }}</td>
       </ng-container>
 
       <!-- Description Column -->
       <ng-container matColumnDef="description">
         <th mat-header-cell *matHeaderCellDef>Description</th>
-        <td mat-cell *matCellDef="let dept" class="desc-text">{{ dept.description || '--' }}</td>
+        <td mat-cell *matCellDef="let dept" class="desc-cell">{{ dept.description || '--' }}</td>
       </ng-container>
 
       <!-- Manager Column -->
@@ -57,7 +63,7 @@
       <!-- Employee Count Column -->
       <ng-container matColumnDef="employeeCount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Headcount</th>
-        <td mat-cell *matCellDef="let dept" class="count-text">
+        <td mat-cell *matCellDef="let dept" class="count-cell">
           <span class="count-badge">
             {{ departmentEmployeeCounts()[dept.name] || 0 }}
           </span>
@@ -86,19 +92,21 @@
       <div class="empty-state">
         <mat-icon class="empty-icon">search_off</mat-icon>
         <h3>No departments found</h3>
-        <p>Try adjusting your search query or add a new corporate department.</p>
+        <p>Try modifying your search criteria or register a new team division.</p>
       </div>
     }
 
-    <!-- Paginator -->
-    <mat-paginator
-      [length]="filteredDepartments().length"
-      [pageSize]="pageSize()"
-      [pageIndex]="pageIndex()"
-      [pageSizeOptions]="[5, 10, 25]"
-      (page)="onPageChange($event)"
-      aria-label="Select page of departments"
-    >
-    </mat-paginator>
+    <!-- Paginator Footer -->
+    <div class="table-footer">
+      <mat-paginator
+        [length]="filteredDepartments().length"
+        [pageSize]="pageSize()"
+        [pageIndex]="pageIndex()"
+        [pageSizeOptions]="[5, 10, 25]"
+        (page)="onPageChange($event)"
+        class="custom-paginator"
+      >
+      </mat-paginator>
+    </div>
   </div>
 </div>

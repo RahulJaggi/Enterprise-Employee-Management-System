@@ -1,38 +1,38 @@
-<div class="login-wrapper">
-  <mat-card class="login-card mat-elevation-z4">
+<div class="saas-login">
+  <div class="login-card">
     @if (isLoading()) {
-      <mat-progress-bar mode="indeterminate" class="login-loader"></mat-progress-bar>
+      <div class="login-spinner-line"></div>
     }
 
-    <mat-card-header class="login-header">
-      <div class="logo-container">
-        <mat-icon class="logo-icon">corporate_fare</mat-icon>
+    <div class="login-header">
+      <div class="logo-box">
+        <mat-icon>corporate_fare</mat-icon>
       </div>
-      <mat-card-title>Enterprise HR Panel</mat-card-title>
-      <mat-card-subtitle>Sign in to access your administrative dashboard</mat-card-subtitle>
-    </mat-card-header>
+      <h1>Enterprise HR</h1>
+      <p class="subtitle">Welcome back. Enter your credentials to access the console portal.</p>
+    </div>
 
-    <mat-card-content class="login-content">
+    <div class="login-body">
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
         <!-- Error Alert -->
         @if (errorMessage()) {
-          <div class="error-alert">
+          <div class="error-banner">
             <mat-icon>error</mat-icon>
             <span>{{ errorMessage() }}</span>
           </div>
         }
 
-        <!-- Username Input -->
+        <!-- Username -->
         <mat-form-field appearance="outline" class="form-field">
           <mat-label>Username</mat-label>
-          <input matInput formControlName="username" placeholder="Enter username" />
-          <mat-icon matSuffix>person</mat-icon>
+          <input matInput formControlName="username" placeholder="Enter username" autocomplete="off" />
+          <mat-icon matSuffix class="field-icon">person</mat-icon>
           @if (loginForm.get('username')?.hasError('required')) {
             <mat-error>Username is required.</mat-error>
           }
         </mat-form-field>
 
-        <!-- Password Input -->
+        <!-- Password -->
         <mat-form-field appearance="outline" class="form-field">
           <mat-label>Password</mat-label>
           <input
@@ -46,8 +46,7 @@
             type="button"
             matSuffix
             (click)="togglePasswordVisibility()"
-            [attr.aria-label]="'Hide password'"
-            [attr.aria-pressed]="hidePassword()"
+            class="toggle-pass-btn"
           >
             <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
           </button>
@@ -58,10 +57,8 @@
 
         <!-- Submit Button -->
         <button
-          mat-flat-button
-          color="primary"
+          class="btn btn-primary submit-btn"
           type="submit"
-          class="submit-button"
           [disabled]="loginForm.invalid || isLoading()"
         >
           Sign In
@@ -70,20 +67,20 @@
 
       <!-- Credentials Hint Drawer -->
       <div class="credentials-hint">
-        <span class="hint-title">Demo User Credentials:</span>
+        <span class="hint-title">Demo Credentials</span>
         <div class="hint-item">
-          <span class="role">Admin:</span>
-          <code>admin</code> / <code>admin123</code>
+          <span class="role">Admin</span>
+          <code>admin / admin123</code>
         </div>
         <div class="hint-item">
-          <span class="role">HR:</span>
-          <code>hr</code> / <code>hr123</code>
+          <span class="role">HR</span>
+          <code>hr / hr123</code>
         </div>
         <div class="hint-item">
-          <span class="role">Manager:</span>
-          <code>manager</code> / <code>manager123</code>
+          <span class="role">Manager</span>
+          <code>manager / manager123</code>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </div>
+  </div>
 </div>

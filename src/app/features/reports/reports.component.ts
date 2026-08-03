@@ -1,5 +1,6 @@
 import { Component, inject, computed, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +18,7 @@ import { Employee } from '../../core/models/employee.model';
   standalone: true,
   imports: [
     CommonModule,
+    RouterLink,
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,

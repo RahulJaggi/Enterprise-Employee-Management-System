@@ -1,95 +1,73 @@
-<div class="dashboard-container">
-  <header class="page-header">
-    <div class="header-text">
-      <h1>HR Dashboard</h1>
-      <p>Overview of organizational statistics and corporate performance</p>
+<div class="saas-dashboard">
+  <!-- Page Header -->
+  <header class="saas-header">
+    <div class="header-content">
+      <h1>Overview</h1>
+      <p class="subtitle">Monitor organization stats, review allocations, and manage talent pipeline.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-outline" routerLink="/reports">
+        <mat-icon>assessment</mat-icon>
+        View Reports
+      </button>
+      <button class="btn btn-primary" routerLink="/employees/new">
+        <mat-icon>add</mat-icon>
+        Hire Employee
+      </button>
     </div>
   </header>
 
-  <!-- KPI Cards Grid -->
-  <div class="kpi-grid">
-    <!-- Card 1: Total Employees -->
-    <mat-card class="kpi-card primary-border">
-      <mat-card-content class="kpi-content">
-        <div class="kpi-icon-wrapper primary-bg">
-          <mat-icon>people</mat-icon>
-        </div>
-        <div class="kpi-data">
-          <span class="kpi-value">{{ totalEmployees() }}</span>
-          <span class="kpi-label">Total Employees</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
+  <!-- KPI Section -->
+  <div class="saas-kpis">
+    <div class="kpi-panel">
+      <span class="kpi-tag">Total Workforce</span>
+      <div class="kpi-value-row">
+        <span class="value">{{ totalEmployees() }}</span>
+        <span class="badge badge-success">+4.2%</span>
+      </div>
+      <span class="kpi-meta">Active headcounts across divisions</span>
+    </div>
 
-    <!-- Card 2: Active Employees -->
-    <mat-card class="kpi-card success-border">
-      <mat-card-content class="kpi-content">
-        <div class="kpi-icon-wrapper success-bg">
-          <mat-icon>check_circle</mat-icon>
-        </div>
-        <div class="kpi-data">
-          <span class="kpi-value">{{ activeEmployees() }}</span>
-          <span class="kpi-label">Active Employees</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <div class="kpi-panel">
+      <span class="kpi-tag">Active Status</span>
+      <div class="kpi-value-row">
+        <span class="value">{{ activeEmployees() }}</span>
+        <span class="badge badge-success">96%</span>
+      </div>
+      <span class="kpi-meta">Currently actively engaged staff</span>
+    </div>
 
-    <!-- Card 3: Inactive Employees -->
-    <mat-card class="kpi-card warn-border">
-      <mat-card-content class="kpi-content">
-        <div class="kpi-icon-wrapper warn-bg">
-          <mat-icon>error_outline</mat-icon>
-        </div>
-        <div class="kpi-data">
-          <span class="kpi-value">{{ inactiveEmployees() }}</span>
-          <span class="kpi-label">Inactive Employees</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <div class="kpi-panel">
+      <span class="kpi-tag">Inactive Pool</span>
+      <div class="kpi-value-row">
+        <span class="value">{{ inactiveEmployees() }}</span>
+        <span class="badge badge-warn">4%</span>
+      </div>
+      <span class="kpi-meta">On leave or offboarded counts</span>
+    </div>
 
-    <!-- Card 4: Total Departments -->
-    <mat-card class="kpi-card accent-border">
-      <mat-card-content class="kpi-content">
-        <div class="kpi-icon-wrapper accent-bg">
-          <mat-icon>domain</mat-icon>
-        </div>
-        <div class="kpi-data">
-          <span class="kpi-value">{{ totalDepartments() }}</span>
-          <span class="kpi-label">Departments</span>
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <div class="kpi-panel">
+      <span class="kpi-tag">Active Departments</span>
+      <div class="kpi-value-row">
+        <span class="value">{{ totalDepartments() }}</span>
+      </div>
+      <span class="kpi-meta">Corporate business divisions</span>
+    </div>
   </div>
 
-  <!-- Main Analytics Layout -->
-  <div class="analytics-layout">
-    <!-- Left Column: Department stats -->
-    <div class="analytics-column">
-      <!-- Headcount Distribution Chart -->
-      <mat-card class="analytics-card">
-        <mat-card-header>
-          <mat-card-title>Headcount Distribution</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="chart-content">
-          <!-- Donut SVG Visualization -->
-          <div class="donut-chart-wrapper">
-            <svg viewBox="0 0 42 42" class="donut-svg">
-              <circle
-                class="donut-hole"
-                cx="21"
-                cy="21"
-                r="15.91549430918954"
-                fill="transparent"
-              ></circle>
-              <circle
-                class="donut-ring"
-                cx="21"
-                cy="21"
-                r="15.91549430918954"
-                fill="transparent"
-                stroke="var(--mat-sys-outline-variant, #e0e0e0)"
-                stroke-width="3"
-              ></circle>
+  <!-- Analytics Columns -->
+  <div class="saas-grid">
+    <!-- Left Column: Charts -->
+    <div class="grid-col span-4">
+      <!-- Headcount Chart -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Headcount Distribution</h2>
+        </div>
+        <div class="panel-body chart-panel-body">
+          <div class="donut-chart-box">
+            <svg viewBox="0 0 42 42" class="donut-canvas">
+              <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--border-color)" stroke-width="2"></circle>
               @for (seg of donutSegments(); track seg.id) {
                 <circle
                   cx="21"
@@ -97,97 +75,107 @@
                   r="15.91549430918954"
                   fill="transparent"
                   [attr.stroke]="seg.color"
-                  stroke-width="3.5"
+                  stroke-width="3"
                   [attr.stroke-dasharray]="seg.strokeDasharray"
                   [attr.stroke-dashoffset]="seg.strokeDashoffset"
-                  class="donut-segment"
+                  class="donut-canvas-segment"
                 ></circle>
               }
             </svg>
-            <div class="donut-center-text">
-              <span class="center-value">{{ totalEmployees() }}</span>
-              <span class="center-label">Employees</span>
+            <div class="donut-caption">
+              <span class="caption-num">{{ totalEmployees() }}</span>
+              <span class="caption-lbl">Employees</span>
             </div>
           </div>
 
-          <!-- Color Legends & Headcounts -->
-          <div class="donut-legend">
-            @for (seg of donutSegments() | slice: 0:5; track seg.id) {
-              <div class="legend-item">
-                <span class="legend-color-dot" [style.background-color]="seg.color"></span>
-                <span class="legend-name">{{ seg.code }}</span>
-                <span class="legend-count">{{ seg.count }} ({{ seg.percentage }}%)</span>
+          <div class="chart-legends-grid">
+            @for (seg of donutSegments() | slice:0:5; track seg.id) {
+              <div class="legend-row">
+                <span class="bullet" [style.background-color]="seg.color"></span>
+                <span class="code">{{ seg.code }}</span>
+                <span class="count">{{ seg.count }}</span>
+                <span class="percent">{{ seg.percentage }}%</span>
               </div>
             }
           </div>
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
 
-      <!-- Department Allocation Listing -->
-      <mat-card class="analytics-card">
-        <mat-card-header>
-          <mat-card-title>Department Statistics</mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="bar-stats-list">
-          @for (stat of departmentStats() | slice: 0:5; track stat.id) {
-            <div class="bar-stat-item">
-              <div class="bar-stat-header">
-                <span class="bar-stat-name">{{ stat.name }}</span>
-                <span class="bar-stat-val">{{ stat.count }} staff</span>
+      <!-- Department Distribution Lists -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Allocation Progress</h2>
+        </div>
+        <div class="panel-body progress-panel-body">
+          @for (stat of departmentStats() | slice:0:4; track stat.id) {
+            <div class="progress-item">
+              <div class="progress-header">
+                <span class="name">{{ stat.name }}</span>
+                <span class="val">{{ stat.count }} staff ({{ stat.percentage }}%)</span>
               </div>
-              <div class="progress-bar-container">
-                <div class="progress-bar-fill" [style.width.%]="stat.percentage"></div>
+              <div class="bar-track">
+                <div class="bar-fill" [style.width.%]="stat.percentage"></div>
               </div>
             </div>
           }
-        </mat-card-content>
-      </mat-card>
+        </div>
+      </div>
     </div>
 
-    <!-- Right Column: Recent Lists -->
-    <div class="analytics-column">
-      <!-- Recent Additions List -->
-      <mat-card class="analytics-card">
-        <mat-card-header>
-          <mat-card-title>Recent Hires</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-action-list>
-            @for (emp of recentEmployees(); track emp.id) {
-              <button mat-list-item [routerLink]="['/employees', emp.id]" class="recent-item">
-                <img [src]="emp.profileImage" alt="Avatar" matListItemAvatar class="recent-avatar" />
-                <span matListItemTitle class="recent-name">{{ emp.name }}</span>
-                <span matListItemLine class="recent-info">
-                  {{ emp.designation }} | {{ emp.department }}
-                </span>
-                <span matListItemMeta class="recent-date">
-                  {{ emp.joiningDate | date: 'shortDate' }}
-                </span>
-              </button>
-              <mat-divider></mat-divider>
-            }
-          </mat-action-list>
-        </mat-card-content>
-      </mat-card>
+    <!-- Right Column: Timeline Activity & Quick Actions -->
+    <div class="grid-col span-2">
+      <!-- Quick Actions -->
+      <div class="panel action-panel">
+        <div class="panel-header">
+          <h2>Quick Actions</h2>
+        </div>
+        <div class="panel-body actions-grid">
+          <a class="action-btn-link" routerLink="/employees/new">
+            <mat-icon class="action-icon">person_add</mat-icon>
+            <div class="action-text">
+              <span class="title">Add Employee</span>
+              <span class="desc">Register a new profile</span>
+            </div>
+          </a>
+          <a class="action-btn-link" routerLink="/departments">
+            <mat-icon class="action-icon">domain</mat-icon>
+            <div class="action-text">
+              <span class="title">Manage Teams</span>
+              <span class="desc">Configure departments</span>
+            </div>
+          </a>
+          <a class="action-btn-link" routerLink="/reports">
+            <mat-icon class="action-icon">assessment</mat-icon>
+            <div class="action-text">
+              <span class="title">Export CSV</span>
+              <span class="desc">Download Excel reports</span>
+            </div>
+          </a>
+        </div>
+      </div>
 
-      <!-- Recent Departments -->
-      <mat-card class="analytics-card">
-        <mat-card-header>
-          <mat-card-title>Recent Departments</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list>
-            @for (dept of recentDepartments(); track dept.id) {
-              <mat-list-item class="recent-dept-item">
-                <mat-icon matListItemIcon class="dept-icon">corporate_fare</mat-icon>
-                <span matListItemTitle class="dept-name">{{ dept.name }}</span>
-                <span matListItemLine class="dept-info">Manager: {{ dept.manager }}</span>
-              </mat-list-item>
-              <mat-divider></mat-divider>
+      <!-- Activity Timeline -->
+      <div class="panel">
+        <div class="panel-header">
+          <h2>Recent Hires</h2>
+        </div>
+        <div class="panel-body timeline-panel-body">
+          <div class="timeline">
+            @for (emp of recentEmployees(); track emp.id) {
+              <div class="timeline-node" [routerLink]="['/employees', emp.id]">
+                <div class="avatar-box">
+                  <img [src]="emp.profileImage" alt="Avatar" />
+                </div>
+                <div class="node-content">
+                  <span class="node-title">{{ emp.name }}</span>
+                  <span class="node-meta">Joined as {{ emp.designation }} in {{ emp.department }}</span>
+                  <span class="node-time">{{ emp.joiningDate | date:'mediumDate' }}</span>
+                </div>
+              </div>
             }
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

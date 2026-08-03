@@ -1,8 +1,9 @@
-<div class="settings-container">
-  <header class="page-header">
+<div class="saas-settings">
+  <!-- Page Header -->
+  <header class="saas-header">
     <div class="header-text">
       <h1>System Settings</h1>
-      <p>Configure user preferences, appearance, security parameters, and notification channels</p>
+      <p class="subtitle">Configure your personal preferences, theme configurations, security rules, and credentials.</p>
     </div>
   </header>
 
@@ -14,11 +15,11 @@
         <span class="tab-label-text">Profile</span>
       </ng-template>
       <div class="tab-content">
-        <mat-card class="settings-card">
-          <mat-card-header>
-            <mat-card-title>Administrative Profile</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="profile-layout">
+        <div class="form-panel">
+          <div class="panel-header">
+            <h2>Administrative Profile</h2>
+          </div>
+          <div class="panel-body profile-layout">
             <div class="avatar-column">
               <img
                 src="https://ui-avatars.com/api/?name=HR+Admin&background=673AB7&color=fff&size=120"
@@ -54,13 +55,13 @@
               </mat-form-field>
 
               <div class="form-actions">
-                <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid">
+                <button class="btn btn-primary" type="submit" [disabled]="profileForm.invalid">
                   Update Profile
                 </button>
               </div>
             </form>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </mat-tab>
 
@@ -71,11 +72,11 @@
         <span class="tab-label-text">Appearance</span>
       </ng-template>
       <div class="tab-content">
-        <mat-card class="settings-card">
-          <mat-card-header>
-            <mat-card-title>Visual Theme Settings</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="toggles-layout">
+        <div class="form-panel">
+          <div class="panel-header">
+            <h2>Visual Theme Settings</h2>
+          </div>
+          <div class="panel-body toggles-layout">
             <div class="toggle-item-row">
               <div class="toggle-item-text">
                 <h3>Application Dark Theme</h3>
@@ -87,8 +88,8 @@
               >
               </mat-slide-toggle>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </mat-tab>
 
@@ -99,11 +100,11 @@
         <span class="tab-label-text">Notifications</span>
       </ng-template>
       <div class="tab-content">
-        <mat-card class="settings-card">
-          <mat-card-header>
-            <mat-card-title>Notification Channels</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="toggles-layout">
+        <div class="form-panel">
+          <div class="panel-header">
+            <h2>Notification Channels</h2>
+          </div>
+          <div class="panel-body toggles-layout">
             <!-- Email -->
             <div class="toggle-item-row">
               <div class="toggle-item-text">
@@ -146,8 +147,8 @@
               >
               </mat-slide-toggle>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </mat-tab>
 
@@ -159,11 +160,11 @@
       </ng-template>
       <div class="tab-content">
         <!-- Change Password Form -->
-        <mat-card class="settings-card security-margin">
-          <mat-card-header>
-            <mat-card-title>Change Administrative Password</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
+        <div class="form-panel security-margin">
+          <div class="panel-header">
+            <h2>Change Administrative Password</h2>
+          </div>
+          <div class="panel-body">
             <form [formGroup]="securityForm" (ngSubmit)="onSaveSecurity()" class="form-grid vertical-inputs">
               <mat-form-field appearance="outline">
                 <mat-label>Current Password</mat-label>
@@ -193,20 +194,20 @@
               </mat-form-field>
 
               <div class="form-actions">
-                <button mat-flat-button color="primary" type="submit" [disabled]="securityForm.invalid">
+                <button class="btn btn-primary" type="submit" [disabled]="securityForm.invalid">
                   Change Password
                 </button>
               </div>
             </form>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
 
         <!-- 2FA & Timeout Config -->
-        <mat-card class="settings-card">
-          <mat-card-header>
-            <mat-card-title>Authentication Parameters</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="toggles-layout">
+        <div class="form-panel">
+          <div class="panel-header">
+            <h2>Authentication Parameters</h2>
+          </div>
+          <div class="panel-body toggles-layout">
             <div class="toggle-item-row">
               <div class="toggle-item-text">
                 <h3>Two-Factor Authentication (2FA)</h3>
@@ -218,8 +219,8 @@
               >
               </mat-slide-toggle>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </mat-tab>
 
@@ -230,11 +231,11 @@
         <span class="tab-label-text">Preferences</span>
       </ng-template>
       <div class="tab-content">
-        <mat-card class="settings-card">
-          <mat-card-header>
-            <mat-card-title>System Preferences</mat-card-title>
-          </mat-card-header>
-          <mat-card-content>
+        <div class="form-panel">
+          <div class="panel-header">
+            <h2>System Preferences</h2>
+          </div>
+          <div class="panel-body">
             <form [formGroup]="preferencesForm" (ngSubmit)="onSavePreferences()" class="form-grid">
               <mat-form-field appearance="outline">
                 <mat-label>Default Language</mat-label>
@@ -283,13 +284,13 @@
               </mat-form-field>
 
               <div class="form-actions span-2">
-                <button mat-flat-button color="primary" type="submit" [disabled]="preferencesForm.invalid">
+                <button class="btn btn-primary" type="submit" [disabled]="preferencesForm.invalid">
                   Save Preferences
                 </button>
               </div>
             </form>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </mat-tab>
 
@@ -300,11 +301,11 @@
         <span class="tab-label-text">About</span>
       </ng-template>
       <div class="tab-content">
-        <mat-card class="settings-card">
-          <mat-card-header>
-            <mat-card-title>Application Information</mat-card-title>
-          </mat-card-header>
-          <mat-card-content class="about-list">
+        <div class="form-panel">
+          <div class="panel-header">
+            <h2>Application Information</h2>
+          </div>
+          <div class="panel-body about-list">
             <div class="about-item">
               <span class="label">System Name</span>
               <span class="value">{{ appMetadata.name }}</span>
@@ -324,8 +325,8 @@
               <span class="label">Production Build ID</span>
               <span class="value code">{{ appMetadata.buildVersion }}</span>
             </div>
-          </mat-card-content>
-        </mat-card>
+          </div>
+        </div>
       </div>
     </mat-tab>
   </mat-tab-group>

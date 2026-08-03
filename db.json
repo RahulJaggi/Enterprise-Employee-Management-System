@@ -641,6 +641,26 @@
         "state": "PA",
         "zip": "18504"
       }
+    },
+    {
+      "employeeCode": "EMP-136",
+      "name": "Rahul Jaggi",
+      "email": "rahul@gmai.com",
+      "phone": "9878767876",
+      "department": "Engineering",
+      "designation": "Softwear Engineer",
+      "joiningDate": "2017-07-05",
+      "salary": 1200000,
+      "status": "Active",
+      "profileImage": "https://ui-avatars.com/api/?name=Rahul%20Jaggi&background=random&color=fff&size=128",
+      "address": {
+        "street": "Dwarka",
+        "city": "Delhi",
+        "state": "Delhi",
+        "zip": "110076"
+      },
+      "id": "GKyMJrO71AM"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

@@ -1,25 +1,27 @@
-<div class="employee-form-container">
-  <header class="page-header">
+<div class="saas-form-wrapper">
+  <!-- Header -->
+  <header class="saas-header">
     <button
-      mat-icon-button
+      class="btn-back"
       [routerLink]="isEditMode() ? ['/employees', employeeId()] : ['/employees']"
-      title="Back"
+      title="Go back"
     >
       <mat-icon>arrow_back</mat-icon>
     </button>
     <div class="header-text">
-      <h1>{{ isEditMode() ? 'Edit Employee Profile' : 'Register New Employee' }}</h1>
-      <p>Fill out the profile, job details, and contact details below</p>
+      <h1>{{ isEditMode() ? 'Edit Profile' : 'New Employee' }}</h1>
+      <p class="subtitle">Complete the credentials, team alignment, and contact listings.</p>
     </div>
   </header>
 
-  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="form-layout">
-    <!-- Section 1: Employment info -->
-    <mat-card class="form-card">
-      <mat-card-header>
-        <mat-card-title>Employment details</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="grid-fields">
+  <!-- Form Body -->
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="saas-form">
+    <!-- Card 1: Job / Employment Details -->
+    <div class="form-panel">
+      <div class="panel-header">
+        <h2>Job Specifications</h2>
+      </div>
+      <div class="panel-body grid-inputs">
         <mat-form-field appearance="outline">
           <mat-label>Employee Code</mat-label>
           <input matInput formControlName="employeeCode" placeholder="EMP-001" />
@@ -71,7 +73,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>Employment Status</mat-label>
+          <mat-label>Status</mat-label>
           <mat-select formControlName="status">
             <mat-option value="Active">Active</mat-option>
             <mat-option value="Inactive">Inactive</mat-option>
@@ -80,15 +82,15 @@
             <mat-error>Status is required.</mat-error>
           }
         </mat-form-field>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
 
-    <!-- Section 2: Personal info -->
-    <mat-card class="form-card">
-      <mat-card-header>
-        <mat-card-title>Personal & Contact information</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="grid-fields">
+    <!-- Card 2: Personal Details -->
+    <div class="form-panel">
+      <div class="panel-header">
+        <h2>Personal Credentials</h2>
+      </div>
+      <div class="panel-body grid-inputs">
         <mat-form-field appearance="outline" class="span-2">
           <mat-label>Full Name</mat-label>
           <input matInput formControlName="name" placeholder="John Doe" />
@@ -96,18 +98,18 @@
             <mat-error>Name is required.</mat-error>
           }
           @if (employeeForm.get('name')?.hasError('minlength')) {
-            <mat-error>Name must be at least 3 characters long.</mat-error>
+            <mat-error>Name must be at least 3 characters.</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email Address</mat-label>
-          <input matInput type="email" formControlName="email" placeholder="john.doe@enterprise.com" />
+          <input matInput type="email" formControlName="email" placeholder="john@enterprise.com" />
           @if (employeeForm.get('email')?.hasError('required')) {
             <mat-error>Email is required.</mat-error>
           }
           @if (employeeForm.get('email')?.hasError('email')) {
-            <mat-error>Please enter a valid email address.</mat-error>
+            <mat-error>Please enter a valid email.</mat-error>
           }
         </mat-form-field>
 
@@ -115,31 +117,31 @@
           <mat-label>Phone Number</mat-label>
           <input matInput formControlName="phone" placeholder="5550192834" />
           @if (employeeForm.get('phone')?.hasError('required')) {
-            <mat-error>Phone number is required.</mat-error>
+            <mat-error>Phone is required.</mat-error>
           }
           @if (employeeForm.get('phone')?.hasError('pattern')) {
-            <mat-error>Please enter a valid 10-15 digit phone number.</mat-error>
+            <mat-error>Format: 10-15 digits.</mat-error>
           }
         </mat-form-field>
 
         <mat-form-field appearance="outline" class="span-2">
-          <mat-label>Profile Image URL (Optional)</mat-label>
+          <mat-label>Profile Avatar URL (Optional)</mat-label>
           <input matInput formControlName="profileImage" placeholder="https://example.com/photo.jpg" />
         </mat-form-field>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
 
-    <!-- Section 3: Residential address -->
-    <mat-card class="form-card" formGroupName="address">
-      <mat-card-header>
-        <mat-card-title>Residential Address</mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="grid-fields">
+    <!-- Card 3: Address (Nested) -->
+    <div class="form-panel" formGroupName="address">
+      <div class="panel-header">
+        <h2>Home Address</h2>
+      </div>
+      <div class="panel-body grid-inputs">
         <mat-form-field appearance="outline" class="span-2">
           <mat-label>Street Address</mat-label>
-          <input matInput formControlName="street" placeholder="123 Corporate Blvd" />
+          <input matInput formControlName="street" placeholder="123 main St" />
           @if (employeeForm.get('address.street')?.hasError('required')) {
-            <mat-error>Street address is required.</mat-error>
+            <mat-error>Street is required.</mat-error>
           }
         </mat-form-field>
 
@@ -152,7 +154,7 @@
         </mat-form-field>
 
         <mat-form-field appearance="outline">
-          <mat-label>State / Province</mat-label>
+          <mat-label>State</mat-label>
           <input matInput formControlName="state" placeholder="NY" />
           @if (employeeForm.get('address.state')?.hasError('required')) {
             <mat-error>State is required.</mat-error>
@@ -163,27 +165,27 @@
           <mat-label>ZIP / Postal Code</mat-label>
           <input matInput formControlName="zip" placeholder="10001" />
           @if (employeeForm.get('address.zip')?.hasError('required')) {
-            <mat-error>ZIP code is required.</mat-error>
+            <mat-error>ZIP is required.</mat-error>
           }
           @if (employeeForm.get('address.zip')?.hasError('pattern')) {
-            <mat-error>Please enter a valid 5-6 digit ZIP code.</mat-error>
+            <mat-error>Format: 5-6 digits.</mat-error>
           }
         </mat-form-field>
-      </mat-card-content>
-    </mat-card>
+      </div>
+    </div>
 
-    <!-- Actions Row -->
-    <div class="form-actions">
+    <!-- Submit buttons row -->
+    <div class="form-actions-row">
       <button
-        mat-stroked-button
+        class="btn btn-outline"
         type="button"
         [routerLink]="isEditMode() ? ['/employees', employeeId()] : ['/employees']"
       >
         Cancel
       </button>
-      <button mat-flat-button color="primary" type="submit" [disabled]="employeeForm.invalid">
+      <button class="btn btn-primary" type="submit" [disabled]="employeeForm.invalid">
         <mat-icon>save</mat-icon>
-        {{ isEditMode() ? 'Save Changes' : 'Register Employee' }}
+        {{ isEditMode() ? 'Save Profile' : 'Register Profile' }}
       </button>
     </div>
   </form>
