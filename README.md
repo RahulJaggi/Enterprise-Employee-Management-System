@@ -1,101 +1,159 @@
-# 🏢 Enterprise Employee Management System
+# Enterprise Employee Management System (EMS)
 
-Welcome to the **Enterprise Employee Management System**—a modern, responsive, and robust single-page application (SPA) designed to manage organizational directories, hierarchies, department allocation, and employee profiles. 
+[![Angular Version](https://img.shields.io/badge/Angular-20.0.0-DD0031.svg?style=flat-square&logo=angular)](https://angular.io/)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Style](https://img.shields.io/badge/Styles-SCSS-bf4080.svg?style=flat-square&logo=sass)](https://sass-lang.com/)
+[![JSON Server](https://img.shields.io/badge/Mock_Backend-JSON_Server-green.svg?style=flat-square)](https://github.com/typicode/json-server)
 
-This repository houses the frontend client built on the modern **Angular Stack** utilizing state-of-the-art Angular features (Signals, Standalone Components, and clean routing).
-
----
-
-## 🚀 Key Features
-
-* **Live Dashboard:** Quick visualization of organizational health, employee distributions, and departmental counts.
-* **Employee Directory:** Complete CRUD operations for employee records, featuring real-time filtering, multi-field searching, and sorting.
-* **Department Management:** Manage departments, assign employees, and structure management hierarchies.
-* **Role & Profile Views:** Beautiful user profiles displaying job titles, contact information, department mappings, and system roles.
-* **Responsive Layout:** A premium, adaptive design optimized for widescreen monitors, tablets, and mobile devices.
+A production-ready, high-fidelity Enterprise Employee Management System built using **Angular 20** standalone architecture, **Angular Signals** for reactive state control, **Angular Material** design systems, and mock REST backend services.
 
 ---
 
-## 🛠️ Technology Stack
+## 🏗️ Architecture Overview
 
-- **Framework:** [Angular](https://angular.dev/) v21.x (utilizing Standalone Component architecture and Signals for fine-grained reactivity)
-- **Language:** [TypeScript](https://www.typescriptlang.org/) v5.9.x
-- **State Management:** Angular Signals & [RxJS](https://rxjs.dev/) for asynchronous data flows
-- **Styling:** Modern Vanilla CSS (CSS Grid, Flexbox, Custom CSS variables for easy theme customization)
-- **Unit Testing:** [Vitest](https://vitest.dev/) for blazing-fast unit tests
+The application follows a modular, scalable **Feature-Based Architecture**. Core utilities, shared widgets, and isolated layouts are structured separately from features.
 
----
+```mermaid
+graph TD
+    App[App Module Shell] --> Layouts[Layouts / Shell]
+    Layouts --> Core[Core services / Guards]
+    Layouts --> Features[Feature Modules]
+    Layouts --> Shared[Shared widgets / Pipes]
+    
+    subgraph Core
+        AuthService[AuthService]
+        EmployeeService[EmployeeService]
+        DeptService[DepartmentService]
+        Guards[Auth & Role Guards]
+    end
 
-## 📂 Directory Structure
-
-A brief overview of the project structure:
-
-```text
-├── public/                  # Static assets (favicons, fonts, images)
-├── src/
-│   ├── app/
-│   │   ├── app.config.ts    # Application-wide configurations and providers
-│   │   ├── app.routes.ts    # Application routing definitions
-│   │   ├── app.ts           # Root component class
-│   │   ├── app.html         # Root HTML template
-│   │   └── app.css          # Global root styles
-│   ├── index.html           # Main HTML entry point
-│   ├── main.ts              # Application bootstrap entry point
-│   └── styles.css           # Global stylesheet and custom properties
-├── angular.json             # Angular CLI workspace configuration
-├── package.json             # Project dependencies and script scripts
-├── tsconfig.json            # Base TypeScript configuration
-└── vite.config.ts           # Vitest configuration
+    subgraph Features
+        Login[Login / Session]
+        Dashboard[Dashboard Analytics]
+        Employees[Employee Directory / Forms]
+        Departments[Department Directory / Dialogs]
+        Reports[Reports & CSV Exporters]
+    end
 ```
 
 ---
 
-## 💻 Getting Started
+## 🛠️ Tech Stack
+
+*   **Framework:** Angular 20 (Standalone Components architecture)
+*   **State Management:** Angular Signals & RxJS Observables
+*   **Styles:** Vanilla SCSS (Responsive custom grid flows)
+*   **Design System:** Angular Material Design (M3)
+*   **Forms:** Reactive Forms (Nested FormGroups with validators)
+*   **Router:** Angular Router with lazy loading & functional route guards
+*   **Database Mocking:** JSON Server REST APIs
+*   **Linters & Formatters:** ESLint & Prettier code validation
+
+---
+
+## 📂 Project Structure
+
+```text
+src/
+├── app/
+│   ├── core/                  # Core modules (singleton service providers)
+│   │   ├── constants/         # App constants (API, URLs)
+│   │   ├── guards/            # Functional Route & Role Guards
+│   │   ├── interceptors/      # Loading bar & Error Interceptors
+│   │   ├── models/            # Core models (Employee, Department, User)
+│   │   └── services/          # Services (Auth, Employee, Department, Notification, Loading)
+│   ├── layout/                # Main shells (AdminLayoutComponent)
+│   ├── features/              # Feature modules (Lazy-loaded modules)
+│   │   ├── dashboard/         # Dashboard KPI cards & SVG charts
+│   │   ├── departments/       # Department CRUD list & dialog forms
+│   │   ├── employees/         # Employee CRUD directory & profile details
+│   │   ├── login/             # Login forms
+│   │   ├── reports/           # Reports graphs, date filters & CSV exporters
+│   │   └── not-found/         # 404 views
+│   └── shared/                # Shared utilities
+│       ├── components/        # Reusable components (Confirm Dialog)
+│       └── pipes/             # Reusable formatters (PhoneFormat)
+└── assets/                    # Static image files and styles
+```
+
+---
+
+## 🌟 Key Features
+
+1.  **Role-Based Access Control (RBAC):**
+    *   Protected routing with expected roles limits views dynamically:
+        *   **Admin:** Complete access (Dashboard, Employees, Departments, Reports, Settings).
+        *   **HR:** Employee directory, addition/editing, and department configurations.
+        *   **Manager:** Dashboard review, employee rosters, and reports.
+    *   Functional auth and role validation guards intercept unauthorized route access.
+2.  **Live Analytics & SVG Charting:**
+    *   Responsive dashboard displaying total counts and active ratios.
+    *   No heavy graphing plugins needed: plots ratios using native, responsive **SVG Donut segment charts**, cumulative growth line drawings, and CSS columns.
+3.  **Complete Employee & Department CRUD Directories:**
+    *   Paginated material tables sorting and searching records.
+    *   Nested form groups mapping residential address parameters.
+    *   Confirmation warnings preventing deletes of departments with active staff allocations.
+4.  **CSV Reports Engine:**
+    *   Download customized reports using instant local Blob compilers mapping dates and departments.
+
+---
+
+## 🚀 Installation & Local Setup
 
 ### Prerequisites
 
-Make sure you have [Node.js](https://nodejs.org/) (v20+ recommended) and [npm](https://www.npmjs.com/) installed on your machine.
+Ensure you have [Node.js](https://nodejs.org/) installed (v18+ recommended).
 
-### Installation
-
-Clone the repository and install dependencies:
-
+### 1. Clone the Repository
 ```bash
 git clone https://github.com/RahulJaggi/Enterprise-Employee-Management-System.git
 cd Enterprise-Employee-Management-System
-npm install
 ```
 
-### Development Server
+### 2. Install Dependencies
+```bash
+npm install --legacy-peer-deps
+```
 
-Run the development server locally:
-
+### 3. Run the Concurrent Dev Servers
+Launch the mock JSON Server backend (running at `localhost:3000`) and the Angular development application server (running at `localhost:4200`) simultaneously:
 ```bash
 npm start
 ```
 
-Once the server is running, navigate to `http://localhost:4200/` in your browser. The application will automatically reload if you change any of the source files.
+---
 
-### Building
+## 📸 Screenshots Placeholders
 
-To compile and build the production-ready assets:
+| Login Panel | Dashboard Analytics |
+|:---:|:---:|
+| `[Screenshot Placeholder: Login Page]` | `[Screenshot Placeholder: Dashboard Page]` |
 
-```bash
-npm run build
-```
+| Employee List | Reports & Analytics |
+|:---:|:---:|
+| `[Screenshot Placeholder: Employee Directory]` | `[Screenshot Placeholder: Reports CSV Export]` |
 
-The optimized build files will be output to the `dist/employee-management-system/` directory.
+---
 
-### Running Unit Tests
+## 🔮 Future Improvements
 
-Run the test suite using Vitest:
+*   **Multi-tenant Organization Setup:** Supporting multiple regional branch entities.
+*   **PDF Paystub Generation:** Exporting employee salary slips directly.
+*   **Dark Mode Toggle:** Native Material theme swapper in the Settings view.
+*   **Audit logs:** Tracks records changes and log edits.
 
-```bash
-npm run test
-```
+---
+
+## 🤝 Contributing Guide
+
+1.  Fork the Project.
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`).
+3.  Commit your Changes (`git commit -m 'feat: add amazing feature'`).
+4.  Push to the Branch (`git push origin feature/AmazingFeature`).
+5.  Open a Pull Request.
 
 ---
 
 ## 📄 License
 
-This project is licensed under the MIT License.
+Distributed under the MIT License. See [LICENSE](LICENSE) for details.
