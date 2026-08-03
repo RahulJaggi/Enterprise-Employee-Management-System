@@ -23,6 +23,10 @@ export class DepartmentService {
       .pipe(tap((departments) => this._departments.set(departments)));
   }
 
+  loadById(id: string): Observable<Department> {
+    return this.http.get<Department>(`${this.apiUrl}/${id}`);
+  }
+
   create(department: Omit<Department, 'id'>): Observable<Department> {
     return this.http
       .post<Department>(this.apiUrl, department)

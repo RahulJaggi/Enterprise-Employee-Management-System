@@ -1,0 +1,104 @@
+<div class="departments-container">
+  <header class="page-header">
+    <div class="header-text">
+      <h1>Department Management</h1>
+      <p>Configure corporate divisions, allocate leaders, and review team statistics</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="openAddDialog()">
+      <mat-icon>add</mat-icon>
+      Add Department
+    </button>
+  </header>
+
+  <!-- Filters Row -->
+  <div class="filters-card">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Search Departments</mat-label>
+      <input matInput placeholder="Search by name, code, or manager..." (input)="onSearch($event)" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <!-- Data Table -->
+  <div class="table-container mat-elevation-z1">
+    <table
+      mat-table
+      matSort
+      [dataSource]="paginatedDepartments()"
+      (matSortChange)="onSortChange($event)"
+      [matSortActive]="sortActive()"
+      [matSortDirection]="sortDirection()"
+      class="departments-table"
+    >
+      <!-- Code Column -->
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+        <td mat-cell *matCellDef="let dept" class="code-text">{{ dept.code }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+        <td mat-cell *matCellDef="let dept" class="name-text">{{ dept.name }}</td>
+      </ng-container>
+
+      <!-- Description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef>Description</th>
+        <td mat-cell *matCellDef="let dept" class="desc-text">{{ dept.description || '--' }}</td>
+      </ng-container>
+
+      <!-- Manager Column -->
+      <ng-container matColumnDef="manager">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Manager</th>
+        <td mat-cell *matCellDef="let dept">{{ dept.manager }}</td>
+      </ng-container>
+
+      <!-- Employee Count Column -->
+      <ng-container matColumnDef="employeeCount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Headcount</th>
+        <td mat-cell *matCellDef="let dept" class="count-text">
+          <span class="count-badge">
+            {{ departmentEmployeeCounts()[dept.name] || 0 }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+        <td mat-cell *matCellDef="let dept" class="actions-cell">
+          <button mat-icon-button color="accent" (click)="openEditDialog(dept.id)" title="Edit Details">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="deleteDepartment(dept.id, dept.name)" title="Delete Department">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+
+    <!-- Empty State -->
+    @if (filteredDepartments().length === 0) {
+      <div class="empty-state">
+        <mat-icon class="empty-icon">search_off</mat-icon>
+        <h3>No departments found</h3>
+        <p>Try adjusting your search query or add a new corporate department.</p>
+      </div>
+    }
+
+    <!-- Paginator -->
+    <mat-paginator
+      [length]="filteredDepartments().length"
+      [pageSize]="pageSize()"
+      [pageIndex]="pageIndex()"
+      [pageSizeOptions]="[5, 10, 25]"
+      (page)="onPageChange($event)"
+      aria-label="Select page of departments"
+    >
+    </mat-paginator>
+  </div>
+</div>

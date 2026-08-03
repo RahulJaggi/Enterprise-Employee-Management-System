@@ -1,0 +1,193 @@
+<div class="dashboard-container">
+  <header class="page-header">
+    <div class="header-text">
+      <h1>HR Dashboard</h1>
+      <p>Overview of organizational statistics and corporate performance</p>
+    </div>
+  </header>
+
+  <!-- KPI Cards Grid -->
+  <div class="kpi-grid">
+    <!-- Card 1: Total Employees -->
+    <mat-card class="kpi-card primary-border">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper primary-bg">
+          <mat-icon>people</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ totalEmployees() }}</span>
+          <span class="kpi-label">Total Employees</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card 2: Active Employees -->
+    <mat-card class="kpi-card success-border">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper success-bg">
+          <mat-icon>check_circle</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ activeEmployees() }}</span>
+          <span class="kpi-label">Active Employees</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card 3: Inactive Employees -->
+    <mat-card class="kpi-card warn-border">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper warn-bg">
+          <mat-icon>error_outline</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ inactiveEmployees() }}</span>
+          <span class="kpi-label">Inactive Employees</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Card 4: Total Departments -->
+    <mat-card class="kpi-card accent-border">
+      <mat-card-content class="kpi-content">
+        <div class="kpi-icon-wrapper accent-bg">
+          <mat-icon>domain</mat-icon>
+        </div>
+        <div class="kpi-data">
+          <span class="kpi-value">{{ totalDepartments() }}</span>
+          <span class="kpi-label">Departments</span>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Main Analytics Layout -->
+  <div class="analytics-layout">
+    <!-- Left Column: Department stats -->
+    <div class="analytics-column">
+      <!-- Headcount Distribution Chart -->
+      <mat-card class="analytics-card">
+        <mat-card-header>
+          <mat-card-title>Headcount Distribution</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="chart-content">
+          <!-- Donut SVG Visualization -->
+          <div class="donut-chart-wrapper">
+            <svg viewBox="0 0 42 42" class="donut-svg">
+              <circle
+                class="donut-hole"
+                cx="21"
+                cy="21"
+                r="15.91549430918954"
+                fill="transparent"
+              ></circle>
+              <circle
+                class="donut-ring"
+                cx="21"
+                cy="21"
+                r="15.91549430918954"
+                fill="transparent"
+                stroke="var(--mat-sys-outline-variant, #e0e0e0)"
+                stroke-width="3"
+              ></circle>
+              @for (seg of donutSegments(); track seg.id) {
+                <circle
+                  cx="21"
+                  cy="21"
+                  r="15.91549430918954"
+                  fill="transparent"
+                  [attr.stroke]="seg.color"
+                  stroke-width="3.5"
+                  [attr.stroke-dasharray]="seg.strokeDasharray"
+                  [attr.stroke-dashoffset]="seg.strokeDashoffset"
+                  class="donut-segment"
+                ></circle>
+              }
+            </svg>
+            <div class="donut-center-text">
+              <span class="center-value">{{ totalEmployees() }}</span>
+              <span class="center-label">Employees</span>
+            </div>
+          </div>
+
+          <!-- Color Legends & Headcounts -->
+          <div class="donut-legend">
+            @for (seg of donutSegments() | slice: 0:5; track seg.id) {
+              <div class="legend-item">
+                <span class="legend-color-dot" [style.background-color]="seg.color"></span>
+                <span class="legend-name">{{ seg.code }}</span>
+                <span class="legend-count">{{ seg.count }} ({{ seg.percentage }}%)</span>
+              </div>
+            }
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Department Allocation Listing -->
+      <mat-card class="analytics-card">
+        <mat-card-header>
+          <mat-card-title>Department Statistics</mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="bar-stats-list">
+          @for (stat of departmentStats() | slice: 0:5; track stat.id) {
+            <div class="bar-stat-item">
+              <div class="bar-stat-header">
+                <span class="bar-stat-name">{{ stat.name }}</span>
+                <span class="bar-stat-val">{{ stat.count }} staff</span>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" [style.width.%]="stat.percentage"></div>
+              </div>
+            </div>
+          }
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Right Column: Recent Lists -->
+    <div class="analytics-column">
+      <!-- Recent Additions List -->
+      <mat-card class="analytics-card">
+        <mat-card-header>
+          <mat-card-title>Recent Hires</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-action-list>
+            @for (emp of recentEmployees(); track emp.id) {
+              <button mat-list-item [routerLink]="['/employees', emp.id]" class="recent-item">
+                <img [src]="emp.profileImage" alt="Avatar" matListItemAvatar class="recent-avatar" />
+                <span matListItemTitle class="recent-name">{{ emp.name }}</span>
+                <span matListItemLine class="recent-info">
+                  {{ emp.designation }} | {{ emp.department }}
+                </span>
+                <span matListItemMeta class="recent-date">
+                  {{ emp.joiningDate | date: 'shortDate' }}
+                </span>
+              </button>
+              <mat-divider></mat-divider>
+            }
+          </mat-action-list>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Recent Departments -->
+      <mat-card class="analytics-card">
+        <mat-card-header>
+          <mat-card-title>Recent Departments</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            @for (dept of recentDepartments(); track dept.id) {
+              <mat-list-item class="recent-dept-item">
+                <mat-icon matListItemIcon class="dept-icon">corporate_fare</mat-icon>
+                <span matListItemTitle class="dept-name">{{ dept.name }}</span>
+                <span matListItemLine class="dept-info">Manager: {{ dept.manager }}</span>
+              </mat-list-item>
+              <mat-divider></mat-divider>
+            }
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
