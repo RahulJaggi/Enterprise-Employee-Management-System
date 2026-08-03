@@ -288,3 +288,269 @@ html {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--border-hover);
 }
+
+/* ==========================================================================
+   COMMON SAAS UTILITY AND COMPONENT LAYOUTS
+   ========================================================================== */
+
+/* 1. Page Header Layout */
+.saas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 8px;
+
+  h1 {
+    font-size: 1.85rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin: 0;
+    color: var(--text-primary);
+  }
+
+  .subtitle {
+    margin: 4px 0 0 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 12px;
+  }
+}
+
+/* 2. Global Button Styles */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-family);
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.15s ease, transform 0.1s ease;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+
+  &.btn-primary {
+    background-color: var(--primary);
+    color: #ffffff;
+    &:hover { background-color: var(--primary-hover); }
+  }
+
+  &.btn-outline {
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-secondary);
+    &:hover {
+      background-color: var(--bg-secondary);
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+  }
+}
+
+/* 3. Filter Console & Control Items */
+.filter-console {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 0 12px;
+  height: 38px;
+  width: 260px;
+  gap: 8px;
+  transition: border-color 0.15s ease;
+
+  &:hover { border-color: var(--border-hover); }
+  mat-icon { font-size: 18px; width: 18px; height: 18px; color: var(--text-muted); }
+  input {
+    border: none;
+    background: transparent;
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    width: 100%;
+    outline: none;
+    &::placeholder { color: var(--text-muted); }
+  }
+  @media screen and (max-width: 600px) { width: 100%; }
+}
+
+.date-input-box {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0 12px;
+  height: 38px;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+
+  .lbl { font-weight: 500; color: var(--text-muted); }
+  input {
+    border: none;
+    background: transparent;
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    color: var(--text-primary);
+    outline: none;
+    cursor: pointer;
+  }
+  @media screen and (max-width: 600px) { width: 100%; justify-content: space-between; }
+}
+
+.select-dropdown {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 0 12px;
+  height: 38px;
+  gap: 8px;
+  position: relative;
+  transition: border-color 0.15s ease;
+
+  &:hover { border-color: var(--border-hover); }
+  .select-icon { font-size: 18px; width: 18px; height: 18px; color: var(--text-muted); }
+  select {
+    border: none;
+    background: transparent;
+    font-family: var(--font-family);
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    outline: none;
+    cursor: pointer;
+    padding-right: 16px;
+    -webkit-appearance: none;
+    appearance: none;
+  }
+  &::after {
+    content: '▾';
+    position: absolute;
+    right: 12px;
+    pointer-events: none;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+  @media screen and (max-width: 600px) {
+    width: 100%;
+    select { width: 100%; }
+  }
+}
+
+/* 4. Table Containers & Cells */
+.table-card {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.saas-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.code-cell {
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+
+.actions-header {
+  text-align: right !important;
+  padding-right: 24px !important;
+}
+
+.actions-cell {
+  text-align: right;
+  white-space: nowrap;
+  padding-right: 16px !important;
+}
+
+/* 5. Custom Badge System */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  &.badge-success { background-color: var(--success-container); color: var(--on-success-container); }
+  &.badge-warn { background-color: var(--warn-container); color: var(--on-warn-container); }
+  &.badge-info { background-color: var(--primary-container); color: var(--on-primary-container); }
+  &.badge-danger { background-color: var(--danger-container); color: var(--on-danger-container); }
+}
+
+/* 6. Empty States */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  color: var(--text-secondary);
+  text-align: center;
+
+  .empty-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 12px;
+    color: var(--text-muted);
+  }
+
+  h3 { margin: 0; font-size: 1.1rem; font-weight: 600; }
+  p { margin: 4px 0 0 0; font-size: 0.85rem; color: var(--text-muted); }
+}
+
+/* 7. Table Footers & Paginators */
+.table-footer {
+  display: flex;
+  justify-content: flex-end;
+  border-top: 1px solid var(--border-color);
+  padding: 8px 16px;
+  background-color: var(--bg-secondary);
+
+  .custom-paginator {
+    background: transparent !important;
+    font-family: var(--font-family) !important;
+    font-size: 0.80rem;
+  }
+}

@@ -662,5 +662,55 @@
       "id": "GKyMJrO71AM"
     }
   ],
+  "attendance": [
+    {
+      "id": "1",
+      "employeeId": "1",
+      "employeeName": "Eleanor Vance",
+      "employeeCode": "EMP-001",
+      "department": "Executive Management",
+      "date": "2026-08-03",
+      "checkIn": "08:45",
+      "checkOut": "17:30",
+      "workingHours": 8.75,
+      "status": "Present"
+    },
+    {
+      "id": "2",
+      "employeeId": "2",
+      "employeeName": "Marcus Aurelius",
+      "employeeCode": "EMP-002",
+      "department": "Engineering",
+      "date": "2026-08-03",
+      "checkIn": "09:15",
+      "checkOut": "18:00",
+      "workingHours": 8.75,
+      "status": "Late"
+    },
+    {
+      "id": "3",
+      "employeeId": "3",
+      "employeeName": "Sophia Chen",
+      "employeeCode": "EMP-003",
+      "department": "Product Management",
+      "date": "2026-08-03",
+      "checkIn": "08:55",
+      "checkOut": "17:00",
+      "workingHours": 8.08,
+      "status": "Work From Home"
+    },
+    {
+      "id": "4",
+      "employeeId": "4",
+      "employeeName": "Diana Prince",
+      "employeeCode": "EMP-004",
+      "department": "Human Resources",
+      "date": "2026-08-03",
+      "checkIn": "",
+      "checkOut": "",
+      "workingHours": 0,
+      "status": "Absent"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

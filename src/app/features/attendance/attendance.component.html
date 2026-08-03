@@ -1,0 +1,309 @@
+<div class="saas-attendance">
+  <!-- Page Header -->
+  <header class="saas-header">
+    <div class="header-text">
+      <h1>Attendance</h1>
+      <p class="subtitle">Log work hours, track status, and monitor daily activity rates.</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn btn-primary" (click)="openAddDialog()">
+        <mat-icon>add</mat-icon>
+        Log Attendance
+      </button>
+    </div>
+  </header>
+
+  <!-- Mat Tabs Wrapper -->
+  <mat-tab-group class="attendance-tabs" dynamicHeight>
+    <!-- Tab 1: Dashboard -->
+    <mat-tab label="Dashboard">
+      <div class="tab-content">
+        <!-- KPI Row -->
+        <div class="saas-kpis">
+          <div class="kpi-panel">
+            <span class="kpi-tag">Present Today</span>
+            <span class="value success-color">{{ presentTodayCount() }}</span>
+            <span class="kpi-meta">On-site attendance records</span>
+          </div>
+
+          <div class="kpi-panel">
+            <span class="kpi-tag">Absent Today</span>
+            <span class="value danger-color">{{ absentTodayCount() }}</span>
+            <span class="kpi-meta">No check-in details logged</span>
+          </div>
+
+          <div class="kpi-panel">
+            <span class="kpi-tag">Late Arrivals</span>
+            <span class="value warn-color">{{ lateTodayCount() }}</span>
+            <span class="kpi-meta">Checked in after shift start</span>
+          </div>
+
+          <div class="kpi-panel">
+            <span class="kpi-tag">Work From Home</span>
+            <span class="value primary-color">{{ wfhTodayCount() }}</span>
+            <span class="kpi-meta">Remote login locations active</span>
+          </div>
+        </div>
+
+        <!-- Charts Split Grid -->
+        <div class="saas-grid">
+          <!-- Donut Rate Chart -->
+          <div class="panel span-3">
+            <div class="panel-header">
+              <h2>Today's Attendance Rate</h2>
+            </div>
+            <div class="panel-body chart-panel-body">
+              @if (todayRecords().length > 0) {
+                <div class="donut-chart-box">
+                  <svg viewBox="0 0 42 42" class="donut-canvas">
+                    <circle cx="21" cy="21" r="15.91549430918954" fill="transparent" stroke="var(--border-color)" stroke-width="2"></circle>
+                    @for (seg of donutSegments(); track seg.id) {
+                      <circle
+                        cx="21"
+                        cy="21"
+                        r="15.91549430918954"
+                        fill="transparent"
+                        [attr.stroke]="seg.color"
+                        stroke-width="3"
+                        [attr.stroke-dasharray]="seg.strokeDasharray"
+                        [attr.stroke-dashoffset]="seg.strokeDashoffset"
+                        class="donut-canvas-segment"
+                      ></circle>
+                    }
+                  </svg>
+                  <div class="donut-caption">
+                    <span class="caption-num">{{ todayRecords().length }}</span>
+                    <span class="caption-lbl">Logged</span>
+                  </div>
+                </div>
+
+                <div class="chart-legends-grid">
+                  @for (seg of donutSegments(); track seg.id) {
+                    <div class="legend-row">
+                      <span class="bullet" [style.background-color]="seg.color"></span>
+                      <span class="code">{{ seg.label }}</span>
+                      <span class="count">{{ seg.count }}</span>
+                      <span class="percent">{{ seg.percentage }}%</span>
+                    </div>
+                  }
+                </div>
+              } @else {
+                <div class="empty-chart">
+                  <mat-icon>insert_chart</mat-icon>
+                  <p>No records registered for today ({{ targetDate() }}).</p>
+                </div>
+              }
+            </div>
+          </div>
+
+          <!-- Weekly Daily Log Bars -->
+          <div class="panel span-3">
+            <div class="panel-header">
+              <h2>Daily Attendance Statistics</h2>
+            </div>
+            <div class="panel-body progress-panel-body">
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span class="name">On-Site Engagement</span>
+                  <span class="val">{{ presentTodayCount() }} Present</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill present-fill" [style.width.%]="todayRecords().length ? (presentTodayCount() / todayRecords().length) * 100 : 0"></div>
+                </div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span class="name">Remote Alignment</span>
+                  <span class="val">{{ wfhTodayCount() }} WFH</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill wfh-fill" [style.width.%]="todayRecords().length ? (wfhTodayCount() / todayRecords().length) * 100 : 0"></div>
+                </div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span class="name">Late Disruption</span>
+                  <span class="val">{{ lateTodayCount() }} Late</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill late-fill" [style.width.%]="todayRecords().length ? (lateTodayCount() / todayRecords().length) * 100 : 0"></div>
+                </div>
+              </div>
+
+              <div class="progress-item">
+                <div class="progress-header">
+                  <span class="name">Absent Absences</span>
+                  <span class="val">{{ absentTodayCount() }} Absent</span>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill absent-fill" [style.width.%]="todayRecords().length ? (absentTodayCount() / todayRecords().length) * 100 : 0"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 2: Logs -->
+    <mat-tab label="Attendance Log">
+      <div class="tab-content">
+        <!-- Filters Console -->
+        <div class="filter-console">
+          <div class="search-box">
+            <mat-icon>search</mat-icon>
+            <input
+              type="text"
+              placeholder="Search by name, code, or department..."
+              [value]="searchQuery()"
+              (input)="onSearch($event)"
+            />
+          </div>
+
+          <div class="date-input-box">
+            <span class="lbl">From</span>
+            <input type="date" [value]="startDate()" (input)="onStartDateChange($event)" />
+          </div>
+
+          <div class="date-input-box">
+            <span class="lbl">To</span>
+            <input type="date" [value]="endDate()" (input)="onEndDateChange($event)" />
+          </div>
+
+          <div class="select-dropdown">
+            <mat-icon class="select-icon">business_center</mat-icon>
+            <select [value]="selectedDepartment()" (change)="onDepartmentChange($any($event.target).value)">
+              <option value="All">All Departments</option>
+              @for (dept of departments(); track dept.id) {
+                <option [value]="dept.name">{{ dept.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="select-dropdown">
+            <mat-icon class="select-icon">person</mat-icon>
+            <select [value]="selectedEmployee()" (change)="onEmployeeChange($any($event.target).value)">
+              <option value="All">All Employees</option>
+              @for (emp of employees(); track emp.id) {
+                <option [value]="emp.id">{{ emp.name }}</option>
+              }
+            </select>
+          </div>
+
+          <button class="btn btn-outline" (click)="clearFilters()" title="Reset all query parameters">
+            <mat-icon>clear_all</mat-icon>
+          </button>
+        </div>
+
+        <!-- Data Grid -->
+        <div class="table-card">
+          <table
+            mat-table
+            matSort
+            [dataSource]="paginatedRecords()"
+            (matSortChange)="onSortChange($event)"
+            [matSortActive]="sortActive()"
+            [matSortDirection]="sortDirection()"
+            class="saas-table"
+          >
+            <!-- Member Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee</th>
+              <td mat-cell *matCellDef="let rec" class="member-cell">
+                <span class="name-text">{{ rec.employeeName }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Employee Code Column -->
+            <ng-container matColumnDef="employeeCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
+              <td mat-cell *matCellDef="let rec" class="code-cell">{{ rec.employeeCode }}</td>
+            </ng-container>
+
+            <!-- Date Column -->
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+              <td mat-cell *matCellDef="let rec">{{ rec.date | date: 'mediumDate' }}</td>
+            </ng-container>
+
+            <!-- Check-In Column -->
+            <ng-container matColumnDef="checkIn">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Check-In</th>
+              <td mat-cell *matCellDef="let rec" class="time-cell">{{ rec.checkIn || '--' }}</td>
+            </ng-container>
+
+            <!-- Check-Out Column -->
+            <ng-container matColumnDef="checkOut">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Check-Out</th>
+              <td mat-cell *matCellDef="let rec" class="time-cell">{{ rec.checkOut || '--' }}</td>
+            </ng-container>
+
+            <!-- Working Hours Column -->
+            <ng-container matColumnDef="workingHours">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Working Hours</th>
+              <td mat-cell *matCellDef="let rec" class="hours-cell">
+                {{ rec.workingHours ? (rec.workingHours + ' hrs') : '--' }}
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let rec">
+                <span
+                  class="badge"
+                  [class.badge-success]="rec.status === 'Present'"
+                  [class.badge-warn]="rec.status === 'Late'"
+                  [class.badge-info]="rec.status === 'Work From Home'"
+                  [class.badge-danger]="rec.status === 'Absent'"
+                >
+                  {{ rec.status }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef class="actions-header">Actions</th>
+              <td mat-cell *matCellDef="let rec" class="actions-cell">
+                <button mat-icon-button color="accent" (click)="openEditDialog(rec)" title="Edit Record">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteRecord(rec.id, rec.employeeName)" title="Delete Record">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+
+          <!-- Empty State -->
+          @if (filteredRecords().length === 0) {
+            <div class="empty-state">
+              <mat-icon class="empty-icon">search_off</mat-icon>
+              <h3>No logs found</h3>
+              <p>Try modifying your filters, date ranges, or add a new attendance log entry.</p>
+            </div>
+          }
+
+          <!-- Paginator Footer -->
+          <div class="table-footer">
+            <mat-paginator
+              [length]="filteredRecords().length"
+              [pageSize]="pageSize()"
+              [pageIndex]="pageIndex()"
+              [pageSizeOptions]="[5, 10, 25]"
+              (page)="onPageChange($event)"
+              class="custom-paginator"
+            >
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

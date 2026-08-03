@@ -1,0 +1,241 @@
+/* Attendance-specific unique dashboard styles */
+.attendance-tabs {
+  ::ng-deep .mat-mdc-tab-body-wrapper {
+    background-color: var(--bg-secondary);
+  }
+}
+
+/* KPI value highlights */
+.kpi-panel .value {
+  &.success-color { color: var(--success); }
+  &.danger-color { color: var(--danger); }
+  &.warn-color { color: var(--warn); }
+  &.primary-color { color: var(--primary); }
+}
+
+/* SaaS Grid Panels */
+.saas-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 24px;
+
+  @media screen and (max-width: 900px) {
+    grid-template-columns: 1fr;
+    .span-3 {
+      grid-column: span 1 !important;
+    }
+  }
+}
+
+.span-3 {
+  grid-column: span 3;
+}
+
+.panel {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .panel-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-secondary);
+
+    h2 {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin: 0;
+      color: var(--text-secondary);
+    }
+  }
+
+  .panel-body {
+    padding: 24px;
+  }
+}
+
+/* Donut Chart styles */
+.chart-panel-body {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 24px;
+  flex-wrap: wrap;
+  min-height: 160px;
+}
+
+.donut-chart-box {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+
+  .donut-canvas {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+
+  .donut-canvas-segment {
+    transition: stroke-width 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      stroke-width: 4;
+    }
+  }
+
+  .donut-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .caption-num {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.04em;
+      color: var(--text-primary);
+      line-height: 1;
+    }
+
+    .caption-lbl {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-top: 2px;
+    }
+  }
+}
+
+.chart-legends-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  min-width: 160px;
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  gap: 8px;
+
+  .bullet {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .code {
+    font-weight: 600;
+    width: 90px;
+    color: var(--text-primary);
+  }
+
+  .count {
+    margin-left: auto;
+    font-weight: 500;
+  }
+
+  .percent {
+    width: 40px;
+    text-align: right;
+    color: var(--text-muted);
+  }
+}
+
+.empty-chart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text-secondary);
+
+  mat-icon {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+    color: var(--text-muted);
+  }
+
+  p {
+    font-size: 0.85rem;
+    margin: 4px 0 0 0;
+  }
+}
+
+/* Progress bars unique fill classes */
+.progress-panel-body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+}
+
+.progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  .progress-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 500;
+
+    .name {
+      color: var(--text-primary);
+    }
+    .val {
+      font-weight: 600;
+    }
+  }
+
+  .bar-track {
+    height: 5px;
+    border-radius: 2.5px;
+    background-color: var(--bg-tertiary);
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    border-radius: 2.5px;
+    transition: width 0.4s ease-out;
+
+    &.present-fill { background-color: var(--success); }
+    &.wfh-fill { background-color: var(--primary); }
+    &.late-fill { background-color: var(--warn); }
+    &.absent-fill { background-color: var(--danger); }
+  }
+}
+
+.member-cell {
+  .name-text {
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+}
+
+.time-cell {
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.hours-cell {
+  font-weight: 500;
+  color: var(--primary);
+}

@@ -65,6 +65,13 @@ export const routes: Routes = [
           import('./features/departments/departments.component').then((m) => m.DepartmentsComponent),
       },
       {
+        path: 'attendance',
+        canActivate: [roleGuard],
+        data: { expectedRoles: ['Admin', 'HR', 'Manager'] },
+        loadComponent: () =>
+          import('./features/attendance/attendance.component').then((m) => m.AttendanceComponent),
+      },
+      {
         path: 'reports',
         canActivate: [roleGuard],
         data: { expectedRoles: ['Admin', 'Manager'] },

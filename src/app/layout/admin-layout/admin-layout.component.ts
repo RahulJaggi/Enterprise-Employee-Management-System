@@ -59,6 +59,7 @@ export class AdminLayoutComponent {
       { path: '/dashboard', label: 'Dashboard', icon: 'dashboard', roles: ['Admin', 'HR', 'Manager'] },
       { path: '/employees', label: 'Employees', icon: 'people', roles: ['Admin', 'HR', 'Manager'] },
       { path: '/departments', label: 'Departments', icon: 'domain', roles: ['Admin', 'HR'] },
+      { path: '/attendance', label: 'Attendance', icon: 'schedule', roles: ['Admin', 'HR', 'Manager'] },
       { path: '/reports', label: 'Reports', icon: 'assessment', roles: ['Admin', 'Manager'] },
       { path: '/settings', label: 'Settings', icon: 'settings', roles: ['Admin'] },
     ];
@@ -82,6 +83,7 @@ export class AdminLayoutComponent {
     if (url.includes('/employees/')) return 'Employee Profile';
     if (url.includes('/employees')) return 'Employees';
     if (url.includes('/departments')) return 'Departments';
+    if (url.includes('/attendance')) return 'Attendance';
     if (url.includes('/settings')) return 'Settings';
     if (url.includes('/reports')) return 'Reports & Analytics';
     return 'Not Found';
