@@ -1,0 +1,332 @@
+<div class="settings-container">
+  <header class="page-header">
+    <div class="header-text">
+      <h1>System Settings</h1>
+      <p>Configure user preferences, appearance, security parameters, and notification channels</p>
+    </div>
+  </header>
+
+  <mat-tab-group class="settings-tabs" dynamicHeight>
+    <!-- Tab 1: Profile -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>person</mat-icon>
+        <span class="tab-label-text">Profile</span>
+      </ng-template>
+      <div class="tab-content">
+        <mat-card class="settings-card">
+          <mat-card-header>
+            <mat-card-title>Administrative Profile</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="profile-layout">
+            <div class="avatar-column">
+              <img
+                src="https://ui-avatars.com/api/?name=HR+Admin&background=673AB7&color=fff&size=120"
+                alt="Profile Avatar"
+                class="profile-avatar"
+              />
+              <span class="avatar-caption">System Administrator</span>
+            </div>
+
+            <form [formGroup]="profileForm" (ngSubmit)="onSaveProfile()" class="form-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Display Name</mat-label>
+                <input matInput formControlName="name" />
+                @if (profileForm.get('name')?.hasError('required')) {
+                  <mat-error>Name is required.</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Email Address</mat-label>
+                <input matInput type="email" formControlName="email" />
+                @if (profileForm.get('email')?.hasError('required')) {
+                  <mat-error>Email is required.</mat-error>
+                }
+                @if (profileForm.get('email')?.hasError('email')) {
+                  <mat-error>Please enter a valid email.</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Assigned System Role</mat-label>
+                <input matInput formControlName="role" />
+              </mat-form-field>
+
+              <div class="form-actions">
+                <button mat-flat-button color="primary" type="submit" [disabled]="profileForm.invalid">
+                  Update Profile
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 2: Appearance -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>palette</mat-icon>
+        <span class="tab-label-text">Appearance</span>
+      </ng-template>
+      <div class="tab-content">
+        <mat-card class="settings-card">
+          <mat-card-header>
+            <mat-card-title>Visual Theme Settings</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="toggles-layout">
+            <div class="toggle-item-row">
+              <div class="toggle-item-text">
+                <h3>Application Dark Theme</h3>
+                <p>Toggle high-contrast dark visual mode styles across all layout components</p>
+              </div>
+              <mat-slide-toggle
+                [checked]="themeMode() === 'dark'"
+                (change)="toggleThemeMode($event.checked)"
+              >
+              </mat-slide-toggle>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 3: Notifications -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>notifications</mat-icon>
+        <span class="tab-label-text">Notifications</span>
+      </ng-template>
+      <div class="tab-content">
+        <mat-card class="settings-card">
+          <mat-card-header>
+            <mat-card-title>Notification Channels</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="toggles-layout">
+            <!-- Email -->
+            <div class="toggle-item-row">
+              <div class="toggle-item-text">
+                <h3>Email Notifications</h3>
+                <p>Receive system reports and audit reminders via administrative email</p>
+              </div>
+              <mat-slide-toggle
+                [checked]="emailNotifications()"
+                (change)="toggleEmailNotifications($event.checked)"
+              >
+              </mat-slide-toggle>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <!-- Push -->
+            <div class="toggle-item-row">
+              <div class="toggle-item-text">
+                <h3>Desktop Push Alerts</h3>
+                <p>Show instant browser overlay banners during database changes and updates</p>
+              </div>
+              <mat-slide-toggle
+                [checked]="pushNotifications()"
+                (change)="togglePushNotifications($event.checked)"
+              >
+              </mat-slide-toggle>
+            </div>
+
+            <mat-divider></mat-divider>
+
+            <!-- SMS -->
+            <div class="toggle-item-row">
+              <div class="toggle-item-text">
+                <h3>SMS Notifications</h3>
+                <p>Receive emergency login alerts and authorization change codes on mobile</p>
+              </div>
+              <mat-slide-toggle
+                [checked]="smsNotifications()"
+                (change)="toggleSmsNotifications($event.checked)"
+              >
+              </mat-slide-toggle>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 4: Security -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>security</mat-icon>
+        <span class="tab-label-text">Security</span>
+      </ng-template>
+      <div class="tab-content">
+        <!-- Change Password Form -->
+        <mat-card class="settings-card security-margin">
+          <mat-card-header>
+            <mat-card-title>Change Administrative Password</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="securityForm" (ngSubmit)="onSaveSecurity()" class="form-grid vertical-inputs">
+              <mat-form-field appearance="outline">
+                <mat-label>Current Password</mat-label>
+                <input matInput type="password" formControlName="currentPassword" />
+                @if (securityForm.get('currentPassword')?.hasError('required')) {
+                  <mat-error>Current password is required.</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>New Password</mat-label>
+                <input matInput type="password" formControlName="newPassword" />
+                @if (securityForm.get('newPassword')?.hasError('required')) {
+                  <mat-error>New password is required.</mat-error>
+                }
+                @if (securityForm.get('newPassword')?.hasError('minlength')) {
+                  <mat-error>Password must be at least 6 characters long.</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Confirm New Password</mat-label>
+                <input matInput type="password" formControlName="confirmPassword" />
+                @if (securityForm.hasError('mismatch')) {
+                  <mat-error>New passwords do not match.</mat-error>
+                }
+              </mat-form-field>
+
+              <div class="form-actions">
+                <button mat-flat-button color="primary" type="submit" [disabled]="securityForm.invalid">
+                  Change Password
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- 2FA & Timeout Config -->
+        <mat-card class="settings-card">
+          <mat-card-header>
+            <mat-card-title>Authentication Parameters</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="toggles-layout">
+            <div class="toggle-item-row">
+              <div class="toggle-item-text">
+                <h3>Two-Factor Authentication (2FA)</h3>
+                <p>Enforce double code checking validations for logins</p>
+              </div>
+              <mat-slide-toggle
+                [checked]="twoFactorEnabled()"
+                (change)="toggle2FA($event.checked)"
+              >
+              </mat-slide-toggle>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 5: Preferences -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>settings_applications</mat-icon>
+        <span class="tab-label-text">Preferences</span>
+      </ng-template>
+      <div class="tab-content">
+        <mat-card class="settings-card">
+          <mat-card-header>
+            <mat-card-title>System Preferences</mat-card-title>
+          </mat-card-header>
+          <mat-card-content>
+            <form [formGroup]="preferencesForm" (ngSubmit)="onSavePreferences()" class="form-grid">
+              <mat-form-field appearance="outline">
+                <mat-label>Default Language</mat-label>
+                <mat-select formControlName="language">
+                  <mat-option value="en">English (US)</mat-option>
+                  <mat-option value="es">Español (ES)</mat-option>
+                  <mat-option value="fr">Français (FR)</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>System Timezone</mat-label>
+                <mat-select formControlName="timezone">
+                  <mat-option value="UTC">Coordinated Universal Time (UTC)</mat-option>
+                  <mat-option value="EST">Eastern Standard Time (EST)</mat-option>
+                  <mat-option value="PST">Pacific Standard Time (PST)</mat-option>
+                  <mat-option value="GMT">Greenwich Mean Time (GMT)</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Preferred Date Format</mat-label>
+                <mat-select formControlName="dateFormat">
+                  <mat-option value="YYYY-MM-DD">YYYY-MM-DD (e.g. 2026-08-03)</mat-option>
+                  <mat-option value="DD/MM/YYYY">DD/MM/YYYY (e.g. 03/08/2026)</mat-option>
+                  <mat-option value="MM-DD-YYYY">MM-DD-YYYY (e.g. 08-03-2026)</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Base System Currency</mat-label>
+                <mat-select formControlName="currency">
+                  <mat-option value="USD">USD ($ - United States Dollar)</mat-option>
+                  <mat-option value="EUR">EUR (€ - Euro)</mat-option>
+                  <mat-option value="GBP">GBP (£ - British Pound Sterling)</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="outline">
+                <mat-label>Session Timeout Limit (minutes)</mat-label>
+                <mat-select formControlName="sessionTimeout">
+                  <mat-option value="15">15 Minutes</mat-option>
+                  <mat-option value="30">30 Minutes</mat-option>
+                  <mat-option value="60">60 Minutes</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <div class="form-actions span-2">
+                <button mat-flat-button color="primary" type="submit" [disabled]="preferencesForm.invalid">
+                  Save Preferences
+                </button>
+              </div>
+            </form>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Tab 6: About -->
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>info</mat-icon>
+        <span class="tab-label-text">About</span>
+      </ng-template>
+      <div class="tab-content">
+        <mat-card class="settings-card">
+          <mat-card-header>
+            <mat-card-title>Application Information</mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="about-list">
+            <div class="about-item">
+              <span class="label">System Name</span>
+              <span class="value">{{ appMetadata.name }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="about-item">
+              <span class="label">Software Version</span>
+              <span class="value">{{ appMetadata.version }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="about-item">
+              <span class="label">Angular Engine Version</span>
+              <span class="value">{{ appMetadata.angularVersion }}</span>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="about-item">
+              <span class="label">Production Build ID</span>
+              <span class="value code">{{ appMetadata.buildVersion }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
