@@ -87,9 +87,9 @@ export class SettingsComponent implements OnInit {
     const storedTheme = localStorage.getItem('theme') || 'light';
     this.themeMode.set(storedTheme as 'light' | 'dark');
     if (storedTheme === 'dark') {
-      document.body.classList.add('dark-theme');
+      document.documentElement.classList.add('dark-theme');
     } else {
-      document.body.classList.remove('dark-theme');
+      document.documentElement.classList.remove('dark-theme');
     }
   }
 
@@ -121,9 +121,9 @@ export class SettingsComponent implements OnInit {
     localStorage.setItem('theme', theme);
 
     if (isDark) {
-      document.body.classList.add('dark-theme');
+      document.documentElement.classList.add('dark-theme');
     } else {
-      document.body.classList.remove('dark-theme');
+      document.documentElement.classList.remove('dark-theme');
     }
     this.notification.success(`Switched to ${theme} mode.`);
   }

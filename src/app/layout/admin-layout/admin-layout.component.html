@@ -26,7 +26,7 @@
     </mat-nav-list>
 
     <div class="sidenav-footer">
-      <button mat-icon-button (click)="toggleCollapse()">
+      <button mat-icon-button (click)="toggleCollapse()" title="Toggle Sidebar Collapse">
         <mat-icon>{{ sidebarCollapsed() ? 'chevron_right' : 'chevron_left' }}</mat-icon>
       </button>
     </div>
@@ -34,20 +34,44 @@
 
   <!-- Main Content Wrapper -->
   <mat-sidenav-content class="sidenav-content">
-    <!-- Top Toolbar -->
-    <mat-toolbar color="primary" class="toolbar">
-      <button mat-icon-button (click)="toggleSidebar()">
+    <!-- Floating / Bordered Top Toolbar -->
+    <mat-toolbar class="toolbar">
+      <button mat-icon-button (click)="toggleSidebar()" class="menu-trigger" title="Toggle Sidebar">
         <mat-icon>menu</mat-icon>
       </button>
-      <span class="toolbar-title">Enterprise Employee Management</span>
+
+      <!-- Search Console Input Bar (UI only) -->
+      <div class="toolbar-search-box">
+        <mat-icon>search</mat-icon>
+        <input type="text" placeholder="Search resources, employees, settings..." readonly />
+        <span class="search-kbd">⌘K</span>
+      </div>
+
       <span class="toolbar-spacer"></span>
 
-      <!-- User Menu -->
-      <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
-        <mat-icon>account_circle</mat-icon>
-        <span class="user-name">{{ currentUser()?.username }} ({{ currentUser()?.role }})</span>
+      <!-- Notification Bell -->
+      <button mat-icon-button class="toolbar-icon-btn" title="View Notifications">
+        <mat-icon>notifications</mat-icon>
+        <span class="badge-indicator"></span>
       </button>
-      <mat-menu #userMenu="matMenu">
+
+      <!-- User Profile Dropdown Menu -->
+      <button mat-button [matMenuTriggerFor]="userMenu" class="user-button">
+        <img
+          src="https://ui-avatars.com/api/?name=HR+Admin&background=673AB7&color=fff&size=32"
+          alt="User Profile"
+          class="user-avatar"
+        />
+        @if (currentUser(); as user) {
+          <span class="user-name-text">{{ user.username }}</span>
+        }
+      </button>
+      <mat-menu #userMenu="matMenu" class="user-menu-dropdown">
+        <div class="user-menu-header">
+          <span class="menu-user-name">{{ currentUser()?.username }}</span>
+          <span class="menu-user-email">{{ currentUser()?.email }}</span>
+        </div>
+        <mat-divider></mat-divider>
         @if (currentUser()?.role === 'Admin') {
           <button mat-menu-item routerLink="/settings">
             <mat-icon>settings</mat-icon>
@@ -69,7 +93,7 @@
 
     <!-- Content Outlet Area -->
     <main class="page-container">
-      <!-- Dynamic Page Header / Breadcrumbs -->
+      <!-- Premium Breadcrumbs -->
       <div class="breadcrumbs-container">
         <span class="breadcrumb-item home">Enterprise</span>
         <mat-icon class="breadcrumb-separator">chevron_right</mat-icon>

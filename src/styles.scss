@@ -1,39 +1,290 @@
-// Include theming for Angular Material with `mat.theme()`.
-// This Sass mixin will define CSS variables that are used for styling Angular Material
-// components according to the Material 3 design spec.
-// Learn more about theming and how to use it for your application's
-// custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
 
-html {
+:root {
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  // Modern Light Theme (Linear & Stripe inspired)
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc; // slate-50
+  --bg-tertiary: #f1f5f9;  // slate-100
+  --border-color: #e2e8f0; // slate-200
+  --border-hover: #cbd5e1; // slate-300
+
+  --text-primary: #0f172a; // slate-900
+  --text-secondary: #475569; // slate-600
+  --text-muted: #94a3b8; // slate-400
+
+  --primary: #4f46e5; // indigo-600
+  --primary-hover: #4338ca;
+  --primary-container: #e0e7ff;
+  --on-primary-container: #312e81;
+
+  --success: #10b981; // emerald-500
+  --success-container: #d1fae5;
+  --on-success-container: #065f46;
+
+  --warn: #f59e0b; // amber-500
+  --warn-container: #fef3c7;
+  --on-warn-container: #92400e;
+
+  --danger: #ef4444; // red-500
+  --danger-container: #fee2e2;
+  --on-danger-container: #991b1b;
+
+  // Borders & Shadows
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+}
+
+.dark-theme, [data-theme="dark"] {
+  // Modern Dark Theme (Vercel & Github inspired)
+  --bg-primary: #09090b; // zinc-950
+  --bg-secondary: #0c0c0e; // black-ish
+  --bg-tertiary: #18181b;  // zinc-900
+  --border-color: #27272a; // zinc-800
+  --border-hover: #3f3f46; // zinc-700
+
+  --text-primary: #f4f4f5; // zinc-100
+  --text-secondary: #a1a1aa; // zinc-400
+  --text-muted: #71717a; // zinc-500
+
+  --primary: #6366f1; // indigo-500
+  --primary-hover: #4f46e5;
+  --primary-container: #1e1b4b;
+  --on-primary-container: #c7d2fe;
+
+  --success: #10b981;
+  --success-container: #064e3b;
+  --on-success-container: #a7f3d0;
+
+  --warn: #f59e0b;
+  --warn-container: #78350f;
+  --on-warn-container: #fde68a;
+
+  --danger: #ef4444;
+  --danger-container: #7f1d1d;
+  --on-danger-container: #fca5a5;
+
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -4px rgba(0, 0, 0, 0.4);
+}
+
+html, body {
   height: 100%;
+  margin: 0;
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  font-family: var(--font-family) !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+// Angular Material Core Configuration using new theme colors
+html {
   @include mat.theme(
     (
       color: (
         primary: mat.$azure-palette,
         tertiary: mat.$blue-palette,
       ),
-      typography: Roboto,
-      density: 0,
+      typography: Inter,
+      density: -1,
     )
   );
 }
 
-body {
-  // Default the application to a light color theme. This can be changed to
-  // `dark` to enable the dark color theme, or to `light dark` to defer to the
-  // user's system settings.
-  color-scheme: light;
+/* ==========================================================================
+   GLOBAL COMPONENT OVERRIDES (SaaS Design Tokens)
+   ========================================================================== */
 
-  // Set a default background, font and text colors for the application using
-  // Angular Material's system-level CSS variables. Learn more about these
-  // variables at https://material.angular.dev/guide/system-variables
-  background-color: var(--mat-sys-surface);
-  color: var(--mat-sys-on-surface);
-  font: var(--mat-sys-body-medium);
+// 1. Cards (Bordered flat aesthetic like Notion & Vercel)
+.mat-mdc-card {
+  background-color: var(--bg-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s ease !important;
 
-  // Reset the user agent margin.
-  margin: 0;
-  height: 100%;
+  &:hover {
+    box-shadow: var(--shadow-md) !important;
+    border-color: var(--border-hover) !important;
+  }
 }
-/* You can add global styles to this file, and also import other style files */
+
+// 2. Buttons (Modern paddings & animations)
+.mat-mdc-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-flat-button,
+.mat-mdc-outlined-button {
+  font-family: var(--font-family) !important;
+  font-weight: 500 !important;
+  border-radius: var(--radius-md) !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  height: 40px !important;
+  padding: 0 16px !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease !important;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.mat-mdc-unelevated-button.mat-primary,
+.mat-mdc-flat-button.mat-primary {
+  background-color: var(--primary) !important;
+  color: #ffffff !important;
+
+  &:hover {
+    background-color: var(--primary-hover) !important;
+  }
+}
+
+.mat-mdc-outlined-button {
+  border-color: var(--border-color) !important;
+  color: var(--text-secondary) !important;
+
+  &:hover {
+    background-color: var(--bg-secondary) !important;
+    border-color: var(--border-hover) !important;
+  }
+}
+
+// 3. Inputs & Outlines (Sleek slate borders)
+.mat-mdc-form-field {
+  font-family: var(--font-family) !important;
+
+  .mat-mdc-text-field-wrapper {
+    background-color: var(--bg-primary) !important;
+    border-radius: var(--radius-md) !important;
+    transition: background-color 0.15s ease;
+  }
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: var(--border-color) !important;
+    border-width: 1px !important;
+  }
+
+  &:hover {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--border-hover) !important;
+    }
+  }
+
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--primary) !important;
+      border-width: 1.5px !important;
+    }
+  }
+}
+
+// 4. Tables (Stripe inspired)
+.mat-mdc-table {
+  background-color: var(--bg-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: var(--shadow-sm) !important;
+  overflow: hidden;
+
+  th.mat-mdc-header-cell {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    font-size: 0.725rem !important;
+    letter-spacing: 0.05em !important;
+    border-bottom: 1px solid var(--border-color) !important;
+  }
+
+  td.mat-mdc-cell {
+    border-bottom: 1px solid var(--border-color) !important;
+    color: var(--text-primary) !important;
+    font-size: 0.85rem !important;
+  }
+
+  tr.mat-mdc-row {
+    height: 52px !important;
+    transition: background-color 0.1s ease;
+    &:hover {
+      background-color: var(--bg-secondary) !important;
+    }
+  }
+}
+
+// 5. Dialogs (Notion card overlays)
+.mat-mdc-dialog-container {
+  background-color: var(--bg-primary) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: var(--shadow-lg) !important;
+
+  .mdc-dialog__title {
+    color: var(--text-primary) !important;
+    font-family: var(--font-family) !important;
+    font-weight: 600 !important;
+    font-size: 1.2rem !important;
+  }
+
+  .mdc-dialog__content {
+    color: var(--text-secondary) !important;
+    font-family: var(--font-family) !important;
+  }
+}
+
+// 6. Tabs
+.mat-mdc-tab-group {
+  .mat-mdc-tab-header {
+    border-bottom: 1px solid var(--border-color) !important;
+  }
+
+  .mat-mdc-tab.mdc-tab--active {
+    .mdc-tab__text-label {
+      color: var(--primary) !important;
+      font-weight: 600 !important;
+    }
+  }
+
+  .mdc-tab-indicator__content--underline {
+    border-color: var(--primary) !important;
+  }
+}
+
+// 7. Divider Override
+.mat-divider {
+  border-top-color: var(--border-color) !important;
+}
+
+// 8. Custom scrollbar for premium look
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-hover);
+}
