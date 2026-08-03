@@ -1,0 +1,120 @@
+<div class="employee-detail-container">
+  @if (employee(); as emp) {
+    <header class="page-header">
+      <button mat-icon-button routerLink="/employees" title="Back to Directory">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="header-text">
+        <h1>Employee Profile</h1>
+        <p>Viewing details of {{ emp.name }} ({{ emp.employeeCode }})</p>
+      </div>
+      <div class="header-actions">
+        <button mat-flat-button color="primary" [routerLink]="['/employees', emp.id, 'edit']">
+          <mat-icon>edit</mat-icon>
+          Edit Profile
+        </button>
+        <button mat-stroked-button color="warn" (click)="deleteEmployee(emp.id, emp.name)">
+          <mat-icon>delete</mat-icon>
+          Delete
+        </button>
+      </div>
+    </header>
+
+    <div class="profile-layout">
+      <!-- Sidebar Card: Profile Summary -->
+      <mat-card class="summary-card">
+        <mat-card-content class="summary-content">
+          <img [src]="emp.profileImage" alt="Avatar" class="avatar-large" />
+          <h2 class="emp-name">{{ emp.name }}</h2>
+          <p class="emp-designation">{{ emp.designation }}</p>
+          <span class="status-badge" [class.active]="emp.status === 'Active'">
+            {{ emp.status }}
+          </span>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Main Info Cards -->
+      <div class="details-cards">
+        <!-- Card 1: Job Info -->
+        <mat-card class="info-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>business_center</mat-icon>
+              Employment Details
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="info-grid">
+            <div class="info-item">
+              <span class="label">Employee Code</span>
+              <span class="value code">{{ emp.employeeCode }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Department</span>
+              <span class="value">{{ emp.department }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Designation</span>
+              <span class="value">{{ emp.designation }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Joining Date</span>
+              <span class="value">{{ emp.joiningDate | date: 'longDate' }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Annual Salary</span>
+              <span class="value salary">{{ emp.salary | currency: 'USD':'symbol':'1.0-0' }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Card 2: Contact Info -->
+        <mat-card class="info-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>contact_phone</mat-icon>
+              Contact Information
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="info-grid">
+            <div class="info-item">
+              <span class="label">Email Address</span>
+              <span class="value">{{ emp.email }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Phone Number</span>
+              <span class="value">{{ emp.phone | phoneFormat }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+
+        <!-- Card 3: Address Info -->
+        <mat-card class="info-card">
+          <mat-card-header>
+            <mat-card-title>
+              <mat-icon>home</mat-icon>
+              Residential Address
+            </mat-card-title>
+          </mat-card-header>
+          <mat-card-content class="info-grid">
+            <div class="info-item">
+              <span class="label">Street Address</span>
+              <span class="value">{{ emp.address.street }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">City</span>
+              <span class="value">{{ emp.address.city }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">State / Province</span>
+              <span class="value">{{ emp.address.state }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">ZIP / Postal Code</span>
+              <span class="value">{{ emp.address.zip }}</span>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  }
+</div>

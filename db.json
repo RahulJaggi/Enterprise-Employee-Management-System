@@ -84,7 +84,12 @@
       "salary": 240000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Eleanor+Vance&background=673AB7&color=fff&size=128",
-      "address": "123 Executive Way, Suite 100, Metropolis"
+      "address": {
+        "street": "123 Executive Way, Suite 100",
+        "city": "Metropolis",
+        "state": "NY",
+        "zip": "10001"
+      }
     },
     {
       "id": "2",
@@ -98,7 +103,12 @@
       "salary": 195000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Marcus+Aurelius&background=3F51B5&color=fff&size=128",
-      "address": "456 Philosopher Blvd, Athens"
+      "address": {
+        "street": "456 Philosopher Blvd",
+        "city": "Athens",
+        "state": "GA",
+        "zip": "30601"
+      }
     },
     {
       "id": "3",
@@ -112,7 +122,12 @@
       "salary": 175000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Sophia+Chen&background=009688&color=fff&size=128",
-      "address": "789 Roadmap Ln, Silicon Valley"
+      "address": {
+        "street": "789 Roadmap Ln",
+        "city": "Silicon Valley",
+        "state": "CA",
+        "zip": "94025"
+      }
     },
     {
       "id": "4",
@@ -126,7 +141,12 @@
       "salary": 140000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Diana+Prince&background=E91E63&color=fff&size=128",
-      "address": "12 Amazonia Dr, Themyscira"
+      "address": {
+        "street": "12 Amazonia Dr",
+        "city": "Themyscira",
+        "state": "FL",
+        "zip": "33101"
+      }
     },
     {
       "id": "5",
@@ -140,7 +160,12 @@
       "salary": 180000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Jordan+Belfort&background=4CAF50&color=fff&size=128",
-      "address": "99 Wall Street, Penthouse A, New York"
+      "address": {
+        "street": "99 Wall Street, Penthouse A",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10005"
+      }
     },
     {
       "id": "6",
@@ -154,7 +179,12 @@
       "salary": 210000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Christian+Wolff&background=FF9800&color=fff&size=128",
-      "address": "234 Ledger Ave, Chicago"
+      "address": {
+        "street": "234 Ledger Ave",
+        "city": "Chicago",
+        "state": "IL",
+        "zip": "60601"
+      }
     },
     {
       "id": "7",
@@ -168,7 +198,12 @@
       "salary": 135000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Clara+Oswald&background=00BCD4&color=fff&size=128",
-      "address": "77 Tardis Rd, London"
+      "address": {
+        "street": "77 Tardis Rd",
+        "city": "London",
+        "state": "OH",
+        "zip": "43040"
+      }
     },
     {
       "id": "8",
@@ -182,7 +217,12 @@
       "salary": 220000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Harvey+Specter&background=607D8B&color=fff&size=128",
-      "address": "501 Pearson Darby Ln, New York"
+      "address": {
+        "street": "501 Pearson Darby Ln",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10007"
+      }
     },
     {
       "id": "9",
@@ -196,7 +236,12 @@
       "salary": 115000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Jack+Reacher&background=795548&color=fff&size=128",
-      "address": "No Permanent Address, Transit Hub"
+      "address": {
+        "street": "100 Transit Hub Way",
+        "city": "Dallas",
+        "state": "TX",
+        "zip": "75201"
+      }
     },
     {
       "id": "10",
@@ -210,7 +255,12 @@
       "salary": 150000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Grace+Hopper&background=9C27B0&color=fff&size=128",
-      "address": "90 Compiler Way, Arlington"
+      "address": {
+        "street": "90 Compiler Way",
+        "city": "Arlington",
+        "state": "VA",
+        "zip": "22201"
+      }
     },
     {
       "id": "11",
@@ -224,7 +274,12 @@
       "salary": 185000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Alan+Turing&background=2196F3&color=fff&size=128",
-      "address": "88 Enigma Way, Bletchley"
+      "address": {
+        "street": "88 Enigma Way",
+        "city": "Bletchley",
+        "state": "MK",
+        "zip": "19081"
+      }
     },
     {
       "id": "12",
@@ -238,7 +293,12 @@
       "salary": 165000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Ada+Lovelace&background=E91E63&color=fff&size=128",
-      "address": "11 Engine Rd, London"
+      "address": {
+        "street": "11 Engine Rd",
+        "city": "London",
+        "state": "KY",
+        "zip": "40741"
+      }
     },
     {
       "id": "13",
@@ -252,7 +312,12 @@
       "salary": 155000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Linus+Torvalds&background=3F51B5&color=fff&size=128",
-      "address": "12 Penguin Way, Helsinki"
+      "address": {
+        "street": "12 Penguin Way",
+        "city": "Helsinki",
+        "state": "MN",
+        "zip": "55343"
+      }
     },
     {
       "id": "14",
@@ -266,7 +331,12 @@
       "salary": 150000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Tim+Berners-Lee&background=00BCD4&color=fff&size=128",
-      "address": "1 Web Way, Geneva"
+      "address": {
+        "street": "1 Web Way",
+        "city": "Geneva",
+        "state": "NY",
+        "zip": "14456"
+      }
     },
     {
       "id": "15",
@@ -280,7 +350,12 @@
       "salary": 130000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Margaret+Hamilton&background=9C27B0&color=fff&size=128",
-      "address": "400 Apollo Rd, Boston"
+      "address": {
+        "street": "400 Apollo Rd",
+        "city": "Boston",
+        "state": "MA",
+        "zip": "02108"
+      }
     },
     {
       "id": "16",
@@ -294,7 +369,12 @@
       "salary": 145000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Steve+Jobs&background=009688&color=fff&size=128",
-      "address": "1 Infinite Loop, Cupertino"
+      "address": {
+        "street": "1 Infinite Loop",
+        "city": "Cupertino",
+        "state": "CA",
+        "zip": "95014"
+      }
     },
     {
       "id": "17",
@@ -308,7 +388,12 @@
       "salary": 225000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Bill+Gates&background=673AB7&color=fff&size=128",
-      "address": "1835 Microsoft Way, Redmond"
+      "address": {
+        "street": "1835 Microsoft Way",
+        "city": "Redmond",
+        "state": "WA",
+        "zip": "98052"
+      }
     },
     {
       "id": "18",
@@ -322,7 +407,12 @@
       "salary": 160000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Jeff+Bezos&background=795548&color=fff&size=128",
-      "address": "1200 12th Ave S, Seattle"
+      "address": {
+        "street": "1200 12th Ave S",
+        "city": "Seattle",
+        "state": "WA",
+        "zip": "98144"
+      }
     },
     {
       "id": "19",
@@ -336,7 +426,12 @@
       "salary": 230000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Sheryl+Sandberg&background=673AB7&color=fff&size=128",
-      "address": "1 Hacker Way, Menlo Park"
+      "address": {
+        "street": "1 Hacker Way",
+        "city": "Menlo Park",
+        "state": "CA",
+        "zip": "94025"
+      }
     },
     {
       "id": "20",
@@ -350,7 +445,12 @@
       "salary": 235000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Satya+Nadella&background=673AB7&color=fff&size=128",
-      "address": "One Microsoft Way, Redmond"
+      "address": {
+        "street": "One Microsoft Way",
+        "city": "Redmond",
+        "state": "WA",
+        "zip": "98052"
+      }
     },
     {
       "id": "21",
@@ -364,7 +464,12 @@
       "salary": 140000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Richard+Branson&background=4CAF50&color=fff&size=128",
-      "address": "Necker Island, British Virgin Islands"
+      "address": {
+        "street": "Necker Island",
+        "city": "Virgin Gorda",
+        "state": "VI",
+        "zip": "11111"
+      }
     },
     {
       "id": "22",
@@ -378,7 +483,12 @@
       "salary": 150000,
       "status": "Inactive",
       "profileImage": "https://ui-avatars.com/api/?name=Elon+Musk&background=795548&color=fff&size=128",
-      "address": "1 Rocket Rd, Hawthorne"
+      "address": {
+        "street": "1 Rocket Rd",
+        "city": "Hawthorne",
+        "state": "CA",
+        "zip": "90250"
+      }
     },
     {
       "id": "23",
@@ -392,7 +502,12 @@
       "salary": 160000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Warren+Buffett&background=FF9800&color=fff&size=128",
-      "address": "3555 Farnam St, Omaha"
+      "address": {
+        "street": "3555 Farnam St",
+        "city": "Omaha",
+        "state": "NE",
+        "zip": "68131"
+      }
     },
     {
       "id": "24",
@@ -406,7 +521,12 @@
       "salary": 120000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Mike+Ross&background=607D8B&color=fff&size=128",
-      "address": "501 Pearson Darby Ln, New York"
+      "address": {
+        "street": "501 Pearson Darby Ln",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10007"
+      }
     },
     {
       "id": "25",
@@ -420,7 +540,12 @@
       "salary": 95000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Rachel+Zane&background=607D8B&color=fff&size=128",
-      "address": "501 Pearson Darby Ln, New York"
+      "address": {
+        "street": "501 Pearson Darby Ln",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10007"
+      }
     },
     {
       "id": "26",
@@ -434,7 +559,12 @@
       "salary": 85000,
       "status": "Inactive",
       "profileImage": "https://ui-avatars.com/api/?name=Michael+Scott&background=4CAF50&color=fff&size=128",
-      "address": "1725 Slough Avenue, Scranton"
+      "address": {
+        "street": "1725 Slough Avenue",
+        "city": "Scranton",
+        "state": "PA",
+        "zip": "18505"
+      }
     },
     {
       "id": "27",
@@ -448,7 +578,12 @@
       "salary": 75000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Dwight+Schrute&background=4CAF50&color=fff&size=128",
-      "address": "Schrute Farms, Scranton"
+      "address": {
+        "street": "Schrute Farms Road",
+        "city": "Scranton",
+        "state": "PA",
+        "zip": "18503"
+      }
     },
     {
       "id": "28",
@@ -462,7 +597,12 @@
       "salary": 80000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Jim+Halpert&background=4CAF50&color=fff&size=128",
-      "address": "123 Scranton Lane, Scranton"
+      "address": {
+        "street": "123 Scranton Lane",
+        "city": "Scranton",
+        "state": "PA",
+        "zip": "18503"
+      }
     },
     {
       "id": "29",
@@ -476,7 +616,12 @@
       "salary": 65000,
       "status": "Active",
       "profileImage": "https://ui-avatars.com/api/?name=Pam+Beesly&background=E91E63&color=fff&size=128",
-      "address": "123 Scranton Lane, Scranton"
+      "address": {
+        "street": "123 Scranton Lane",
+        "city": "Scranton",
+        "state": "PA",
+        "zip": "18503"
+      }
     },
     {
       "id": "30",
@@ -490,7 +635,12 @@
       "salary": 72000,
       "status": "Inactive",
       "profileImage": "https://ui-avatars.com/api/?name=Toby+Flenderson&background=E91E63&color=fff&size=128",
-      "address": "456 Scranton Road, Scranton"
+      "address": {
+        "street": "456 Scranton Road",
+        "city": "Scranton",
+        "state": "PA",
+        "zip": "18504"
+      }
     }
   ]
 }

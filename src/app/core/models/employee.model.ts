@@ -1,3 +1,10 @@
+export interface Address {
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+}
+
 export interface Employee {
   id: string;
   employeeCode: string;
@@ -10,5 +17,5 @@ export interface Employee {
   salary: number;
   status: 'Active' | 'Inactive';
   profileImage: string;
-  address: string;
+  address: Address;
 }
