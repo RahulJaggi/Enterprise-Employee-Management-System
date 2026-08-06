@@ -1,6 +1,7 @@
 {
   "name": "employee-management-system",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "Enterprise-grade Employee Management System (EMS) built with Angular 20 standalone components, Signals, and a premium SaaS admin dashboard style.",
   "scripts": {
     "ng": "ng",
     "start": "concurrently --kill-others \"npm run api\" \"ng serve\"",
